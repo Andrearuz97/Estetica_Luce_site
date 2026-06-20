@@ -35,6 +35,10 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+body.menu-open {
+    overflow: hidden;
+}
+
 /* Typography Global */
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
@@ -116,14 +120,6 @@ h1, h2, h3 {
     border: 1px solid rgba(140, 126, 109, 0.15);
 }
 
-.logo-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    letter-spacing: 4px;
-    font-weight: 500;
-    color: var(--dark-text);
-}
-
 .nav-links {
     display: flex;
     align-items: center;
@@ -180,23 +176,11 @@ h1, h2, h3 {
     align-items: center;
     text-align: center;
     position: relative;
-    background: transparent; 
+    background: radial-gradient(circle, rgba(253,251,249,0.8) 0%, rgba(245,240,234,0.4) 100%);
     padding: 180px 20px 120px 20px;
 }
 
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: radial-gradient(circle, rgba(253,251,249,0.8) 0%, rgba(245,240,234,0.4) 100%);
-}
-
 .hero-content {
-    position: relative;
-    z-index: 2;
     max-width: 900px;
 }
 
@@ -225,7 +209,6 @@ h1, h2, h3 {
 }
 
 .brand-main-title {
-    font-family: 'Playfair Display', serif;
     font-size: 5rem;              
     font-weight: 500;
     letter-spacing: 6px;          
@@ -314,7 +297,6 @@ h1, h2, h3 {
     flex: 1;
     height: 500px;
     overflow: hidden;
-    position: relative;
     border: 1px solid rgba(140, 126, 109, 0.1);
 }
 
@@ -420,7 +402,6 @@ h1, h2, h3 {
 /* --- Gallery Section --- */
 .gallery-section {
     padding: 120px 50px;
-    background-color: var(--bg-cream);
 }
 
 .gallery-grid {
@@ -444,7 +425,6 @@ h1, h2, h3 {
 .social-luxury-showcase {
     background-color: var(--bg-cream);
     padding: 100px 20px;
-    font-family: 'Montserrat', sans-serif;
     text-align: center;
     border-top: 1px solid rgba(140, 126, 109, 0.1);
 }
@@ -466,7 +446,6 @@ h1, h2, h3 {
 
 .social-title {
     color: var(--dark-text);
-    font-family: 'Playfair Display', serif;
     font-size: 2.4rem;
     font-weight: 400;
     letter-spacing: 2px;
@@ -531,7 +510,6 @@ h1, h2, h3 {
 
 .social-card-title {
     color: var(--dark-text);
-    font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
     font-weight: 400;
     margin: 0 0 10px 0;
@@ -563,7 +541,6 @@ h1, h2, h3 {
 .contact-section {
     background-color: var(--bg-beige);
     padding: 110px 20px;
-    font-family: 'Montserrat', sans-serif;
     text-align: center;
 }
 
@@ -584,7 +561,6 @@ h1, h2, h3 {
 
 .contact-title {
     color: var(--dark-text);
-    font-family: 'Playfair Display', serif;
     font-size: 2.6rem;
     font-weight: 400;
     letter-spacing: 1px;
@@ -679,33 +655,21 @@ h1, h2, h3 {
 
 /* --- Mappa & Footer --- */
 .map-section {
-    background-color: var(--bg-cream);
-    padding: 0px; /* Azzeriamo i padding laterali della sezione */
-    width: 100%;
-}
-
-/* Questa classe mancava nel tuo CSS e serve a incorniciare 
-   la mappa esattamente alla stessa larghezza del footer (1200px) */
-.map-container {
-    /*max-width: 1200px;*/
-    margin: 0 auto;
-    padding: 0 20px; /* Crea il margine di sicurezza sui lati */
-    width: 100%;
+    padding: 0 20px;
 }
 
 .map-iframe {
     width: 100%;
-    height: 350px; /* FIX: Definiamo un'altezza fissa esplicita, non in percentuale */
+    height: 350px;
     border: 0;
-    border-radius: 4px; /* Un leggero raggio smussa gli angoli e rifinisce il design di lusso */
+    border-radius: 4px;
     display: block;
-    box-shadow: 0 10px 30px rgba(140, 126, 109, 0.05); /* Segue lo stile pulito delle tue card */
+    box-shadow: 0 10px 30px rgba(140, 126, 109, 0.05);
 }
 
 .main-footer {
     background-color: var(--bg-beige);
-    padding: 60px 20px 30px 20px;
-    font-family: 'Montserrat', sans-serif;
+    padding: 60px 20px 30px;
     border-top: 1px solid rgba(140, 126, 109, 0.15);
 }
 
@@ -818,37 +782,33 @@ h1, h2, h3 {
 }
 
 .btn-scroll {
-    background-color: var(--white) !important;
-    color: var(--dark-text) !important;
+    background-color: var(--white);
+    color: var(--dark-text);
     border: 1px solid rgba(140, 126, 109, 0.15);
     opacity: 0;
     pointer-events: none;
     transform: scale(0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-scroll i {
-    color: var(--dark-text) !important;
+    color: var(--dark-text);
 }
 
 .btn-scroll.show {
-    opacity: 1 !important;
-    pointer-events: auto !important;
+    opacity: 1;
+    pointer-events: auto;
     transform: scale(1);
 }
 
 .btn-scroll:hover {
-    background-color: var(--bg-beige) !important;
+    background-color: var(--bg-beige);
 }
 
 .btn-scroll:hover i {
-    color: var(--accent-gold) !important;
+    color: var(--accent-gold);
 }
 
 /* ==========================================================================
-  /* ==========================================================================
    7. RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
 
@@ -915,28 +875,17 @@ h1, h2, h3 {
     }
 
    /* Righe Trattamenti & Fix Immagini */
-    .ritual-row, 
-    .ritual-row.reverse {
+    .ritual-row {
         display: block; /* Sganciamo il flexbox che creava il bug dell'altezza */
         margin-bottom: 60px;
     }
 
     .ritual-image-box {
-        display: block;
-        width: 100%;
         height: 400px; /* Ora il browser è obbligato a renderizzarlo alto 400px */
         margin-bottom: 25px; /* Crea lo spazio visivo tra l'immagine e il testo sotto */
     }
 
-    .img-placeholder {
-        display: block;
-        width: 100%;
-        height: 100%; /* Prende il 100% dei 400px del padre */
-    }
-
     .ritual-text-box {
-        display: block;
-        width: 100%;
         text-align: center;
         padding: 0;
     }
@@ -966,11 +915,6 @@ h1, h2, h3 {
     .navbar-logo {
         width: 50px;
         height: 50px;
-    }
-
-    .logo-text {
-        font-size: 1.1rem;
-        letter-spacing: 2px;
     }
 
     .brand-main-title {
@@ -1006,11 +950,6 @@ h1, h2, h3 {
         height: 300px; /* Altezza del contenitore su Mobile */
     }
     
-    .img-placeholder {
-        height: 100%;  /* Mantiene il fix anche su smartphone */
-        width: 100%;
-    }
-
     .floating-actions {
         bottom: 20px;
         right: 20px;
@@ -1022,13 +961,10 @@ h1, h2, h3 {
         height: 46px;
         font-size: 1.2rem;
     }
-.footer-row-contacts {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 10px;
-   
-}
+    .footer-row-contacts {
+        flex-wrap: nowrap;
+        gap: 10px;
+    }
 }
 
 /* --- TINY DEVICES (max-width: 480px) --- */
