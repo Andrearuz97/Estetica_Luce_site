@@ -10,7 +10,7 @@
     --light-text: #6E6E6E;     /* Testi secondari e descrizioni */
     --white: #FFFFFF;
     /* Quando avrai la foto, caricala in assets/img e sostituisci qui il nome del file. */
-    --hero-background-image: url('../img/hero-placeholder.svg');
+    --hero-background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2bN3iaK32K1q7e_OP7JzJndEOx0Fne_TsVA&s');
     --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
