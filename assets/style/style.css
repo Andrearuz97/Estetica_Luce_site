@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DESIGN SYSTEM & VARIABLES
+   1. DESIGN SYSTEM & VARIABLES
    ========================================================================== */
 :root {
     --bg-cream: #FAF7F2;       /* Sfondo principale ultra-pulito */
@@ -12,7 +12,9 @@
     --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Base Reset */
+/* ==========================================================================
+   2. BASE RESET & GLOBAL STYLES
+   ========================================================================== */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -33,13 +35,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Layout Container */
-.container-small {
-    max-width: 850px;
-    margin: 0 auto;
-    width: 100%;
-}
-
 /* Typography Global */
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
@@ -47,8 +42,44 @@ h1, h2, h3 {
     letter-spacing: -0.5px;
 }
 
+/* Layout Containers */
+.container-small {
+    max-width: 850px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 90px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--light-text);
+    font-weight: 300;
+}
+
 /* ==========================================================================
-   HEADER / NAVIGATION & LOGO FIX
+   3. BACKGROUND IMAGES MAPPING (Sostituzione stili inline)
+   ========================================================================== */
+/* Trattamenti */
+.trattamento-1 { background-image: url('https://italianbeautyacademy.com/wp-content/uploads/2020/03/manicure-curativa.jpg'); }
+.trattamento-2 { background-image: url('https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=1200&auto=format&fit=crop'); }
+.trattamento-3 { background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1200&auto=format&fit=crop'); }
+
+/* Galleria */
+.foto-1 { background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop'); }
+.foto-2 { background-image: url('https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=800&auto=format&fit=crop'); }
+.foto-3 { background-image: url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop'); }
+
+/* ==========================================================================
+   4. HEADER & NAVIGATION
    ========================================================================== */
 .main-header {
     position: fixed;
@@ -81,11 +112,8 @@ h1, h2, h3 {
     width: 62px;
     height: 62px;
     object-fit: cover;
-    border-radius: 50%; /* Rende il logo perfettamente tondo */
+    border-radius: 50%;
     border: 1px solid rgba(140, 126, 109, 0.15);
-    
-    /* Fonde lo sfondo bianco del JPEG con il beige della navbar eliminando il rettangolo */
-   /* mix-blend-mode: multiply; */
 }
 
 .logo-text {
@@ -116,9 +144,35 @@ h1, h2, h3 {
     color: var(--accent-gold);
 }
 
+/* Hamburger Menu Core */
+.hamburger-menu {
+    display: none; /* Gestito in responsive */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+.hamburger-menu .bar {
+    width: 100%;
+    height: 2px;
+    background-color: var(--dark-text);
+    transition: var(--transition-smooth);
+}
+
+.hamburger-menu.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
+.hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
 /* ==========================================================================
-   HERO SECTION (Trasparente)
+   5. SECTIONS STYLES
    ========================================================================== */
+
+/* --- Hero Section --- */
 .hero-section {
     height: 100vh;
     display: flex;
@@ -215,9 +269,7 @@ h1, h2, h3 {
     color: var(--white);
 }
 
-/* ==========================================================================
-   MANIFESTO / FILOSOFIA
-   ========================================================================== */
+/* --- Manifesto / Filosofia --- */
 .manifesto-section {
     background-color: var(--bg-beige);
     padding: 120px 20px;
@@ -240,29 +292,11 @@ h1, h2, h3 {
     color: var(--taupe);
 }
 
-/* ==========================================================================
-   EXPERIENCES / RITUALS SECTION
-   ========================================================================== */
+/* --- Experiences / Rituals --- */
 .experiences-section {
     padding: 140px 50px;
     max-width: 1200px;
     margin: 0 auto;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 90px;
-}
-
-.section-header h2 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-}
-
-.section-header p {
-    font-size: 1.1rem;
-    color: var(--light-text);
-    font-weight: 300;
 }
 
 .ritual-row {
@@ -345,9 +379,7 @@ h1, h2, h3 {
     padding-left: 5px;
 }
 
-/* ==========================================================================
-   PILLARS SECTION & GALLERY & MAP
-   ========================================================================== */
+/* --- Pillars Section --- */
 .pillars-section {
     background-color: var(--white);
     padding: 100px 50px;
@@ -385,6 +417,7 @@ h1, h2, h3 {
     font-weight: 300;
 }
 
+/* --- Gallery Section --- */
 .gallery-section {
     padding: 120px 50px;
     background-color: var(--bg-cream);
@@ -407,13 +440,342 @@ h1, h2, h3 {
     border-radius: 2px;
 }
 
+/* --- Social Section --- */
+.social-luxury-showcase {
+    background-color: var(--bg-cream);
+    padding: 100px 20px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    border-top: 1px solid rgba(140, 126, 109, 0.1);
+}
+
+.social-header-block {
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+}
+
+.social-subtitle {
+    color: var(--accent-gold);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.social-title {
+    color: var(--dark-text);
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin: 0 0 15px 0;
+}
+
+.gold-line-divider {
+    width: 50px;
+    height: 1px;
+    background: var(--accent-gold);
+    margin: 0 auto 20px auto;
+}
+
+.social-desc {
+    color: var(--light-text);
+    font-size: 1rem;
+    max-width: 550px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+}
+
+.social-luxury-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 10px;
+}
+
+.social-card-link {
+    text-decoration: none;
+    color: unset;
+    flex: 1;
+    min-width: 280px;
+    max-width: 450px;
+}
+
+.social-card-box {
+    background: var(--white);
+    border: 1px solid rgba(140, 126, 109, 0.1);
+    padding: 45px 30px;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(140, 126, 109, 0.05);
+    transition: var(--transition-smooth);
+}
+
+.social-card-box:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-gold);
+    box-shadow: 0 15px 40px rgba(140, 126, 109, 0.12);
+}
+
+.social-icon {
+    color: var(--accent-gold);
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.social-card-title {
+    color: var(--dark-text);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin: 0 0 10px 0;
+    letter-spacing: 1px;
+}
+
+.social-handle {
+    color: var(--taupe);
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0 0 20px 0;
+    font-weight: 500;
+}
+
+.social-action-text {
+    color: var(--dark-text);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--accent-gold);
+    padding-bottom: 2px;
+}
+
+/* --- Contatti Section --- */
+.contact-section {
+    background-color: var(--bg-beige);
+    padding: 110px 20px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.contact-container {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.contact-subtitle {
+    color: var(--taupe);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.contact-title {
+    color: var(--dark-text);
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 0 0 10px 0;
+}
+
+.contact-hours {
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+    color: var(--taupe);
+    letter-spacing: 1px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.hours-separator {
+    margin: 0 8px;
+    color: var(--accent-gold);
+}
+
+.gold-line-divider-small {
+    width: 60px;
+    height: 1px;
+    background: var(--accent-gold);
+    margin: 0 auto 30px auto;
+}
+
+.contact-desc {
+    color: var(--light-text);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 50px;
+}
+
+.contact-buttons-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.btn-contact-action {
+    flex: 1;
+    min-width: 210px;
+    text-decoration: none;
+    padding: 18px 25px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: var(--transition-smooth);
+}
+
+.btn-whatsapp {
+    background: var(--taupe);
+    color: var(--white);
+    box-shadow: 0 5px 20px rgba(140, 126, 109, 0.15);
+}
+
+.btn-whatsapp:hover {
+    background: var(--accent-gold);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: var(--white);
+    border: 1px solid var(--taupe);
+    color: var(--dark-text);
+}
+
+.btn-outline:hover {
+    border-color: var(--accent-gold);
+    background: var(--bg-cream);
+    transform: translateY(-2px);
+}
+
+.contact-footer-note {
+    color: var(--light-text);
+    font-size: 0.8rem;
+    margin-top: 35px;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+/* --- Mappa & Footer --- */
 .map-section {
     background-color: var(--bg-cream);
-    padding: 0 20px 80px 20px;
+    padding: 0px; /* Azzeriamo i padding laterali della sezione */
+    width: 100%;
+}
+
+/* Questa classe mancava nel tuo CSS e serve a incorniciare 
+   la mappa esattamente alla stessa larghezza del footer (1200px) */
+.map-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* Crea il margine di sicurezza sui lati */
+    width: 100%;
+}
+
+.map-iframe {
+    width: 100%;
+    height: 450px; /* FIX: Definiamo un'altezza fissa esplicita, non in percentuale */
+    border: 0;
+    border-radius: 4px; /* Un leggero raggio smussa gli angoli e rifinisce il design di lusso */
+    display: block;
+    box-shadow: 0 10px 30px rgba(140, 126, 109, 0.05); /* Segue lo stile pulito delle tue card */
+}
+
+.main-footer {
+    background-color: var(--bg-beige);
+    padding: 60px 20px 30px 20px;
+    font-family: 'Montserrat', sans-serif;
+    border-top: 1px solid rgba(140, 126, 109, 0.15);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.footer-row-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+}
+
+.footer-social-circle {
+    color: var(--dark-text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--white);
+    border-radius: 50%;
+    border: 1px solid rgba(140, 126, 109, 0.2);
+    transition: var(--transition-smooth);
+}
+
+.footer-social-circle:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-3px);
+}
+
+.footer-social-circle i {
+    color: var(--taupe);
+    font-size: 1.1rem;
+}
+
+.footer-address {
+    color: var(--dark-text);
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    margin: -5px 0 5px 0;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.footer-divider {
+    width: 100%;
+    max-width: 350px;
+    height: 1px;
+    background: rgba(140, 126, 109, 0.2);
+}
+
+.developer-link {
+    color: var(--dark-text);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px dashed var(--taupe);
+    padding-bottom: 2px;
 }
 
 /* ==========================================================================
-   ELEMENTI FLUTTUANTI (WHATSAPP IN TONO & SCROLL TOP)
+   6. FLOATING ELEMENTS (WHATSAPP & SCROLL TO TOP)
    ========================================================================== */
 .floating-actions {
     position: fixed;
@@ -445,7 +807,6 @@ h1, h2, h3 {
     box-shadow: 0 12px 30px rgba(140, 126, 109, 0.25);
 }
 
-/* WhatsApp in palette del brand */
 .btn-whatsapp-float {
     background-color: var(--taupe);
     color: var(--white);
@@ -456,204 +817,52 @@ h1, h2, h3 {
     color: var(--white);
 }
 
-/* Freccia di risalita base (Nascosta) */
 .btn-scroll {
     background-color: var(--white) !important;
-    color: var(--dark-text) !important; /* Forza l'icona a essere scura e visibile */
+    color: var(--dark-text) !important;
     border: 1px solid rgba(140, 126, 109, 0.15);
     opacity: 0;
-    pointer-events: none; /* Impedisce il click quando è invisibile */
+    pointer-events: none;
     transform: scale(0.8);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Forza il colore dell'icona interna */
 .btn-scroll i {
     color: var(--dark-text) !important;
 }
 
-/* Quando la pagina scende e lo script attiva la freccia */
 .btn-scroll.show {
     opacity: 1 !important;
-    pointer-events: auto !important; /* Riabilita il click del mouse */
+    pointer-events: auto !important;
     transform: scale(1);
 }
 
-/* Effetto Hover */
 .btn-scroll:hover {
     background-color: var(--bg-beige) !important;
 }
+
 .btn-scroll:hover i {
-    color: var(--accent-gold) !important; /* Diventa oro al passaggio del mouse */
+    color: var(--accent-gold) !important;
 }
 
 /* ==========================================================================
-   RESPONSIVE DESIGN (OTTIMIZZATO)
+  /* ==========================================================================
+   7. RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
+
+/* --- TABLET LAYOUT (max-width: 992px) --- */
 @media (max-width: 992px) {
-    /* Header & Navigation */
     .main-header {
         padding: 15px 30px;
     }
-    .nav-links {
-        display: none; /* Pronto per un futuro menu hamburger se serve */
-    }
 
-    /* Hero Section */
-    .hero-section {
-        padding: 160px 20px 80px 20px;
-    }
-    .brand-main-title {
-        font-size: 3.5rem;
-        letter-spacing: 4px;
-    }
-
-    /* Sezioni Generiche */
-    .experiences-section, .pillars-section, .gallery-section {
-        padding: 80px 30px;
-    }
-    .section-header {
-        margin-bottom: 60px;
-    }
-
-    /* Struttura Rituals / Experiences */
-    .ritual-row, .ritual-row.reverse {
-        flex-direction: column;
-        gap: 40px;
-        margin-bottom: 80px;
-    }
-    .ritual-image-box {
-        width: 100%;
-        height: 400px;
-    }
-    .ritual-text-box {
-        text-align: center;
-        padding: 0;
-    }
-
-    /* Griglie Pillars e Gallery */
-    .pillars-container, .gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    .gallery-grid {
-        height: auto;
-    }
-    .gallery-item {
-        height: 300px;
-    }
-}
-
-@media (max-width: 768px) {
-    /* Adattamento Header e Logo su Mobile */
-    .main-header {
-        padding: 12px 20px;
-    }
-    .navbar-logo {
-        width: 50px;  /* Scalato leggermente per display piccoli */
-        height: 50px;
-    }
-    .logo-text {
-        font-size: 1.1rem;
-        letter-spacing: 2px;
-    }
-
-    /* Hero Mobile */
-    .brand-main-title {
-        font-size: 2.4rem;
-        letter-spacing: 2px;
-    }
-    .logo-container-fluid {
-        width: 130px;
-        height: 130px;
-        margin-bottom: 25px;
-    }
-    .hero-tagline {
-        font-size: 1rem;
-        letter-spacing: 2px;
-        margin-bottom: 40px;
-    }
-
-    /* Typography e Spazi */
-    .manifesto-section {
-        padding: 80px 20px;
-    }
-    .manifesto-quote {
-        font-size: 1.6rem;
-    }
-    .ritual-text-box h3 {
-        font-size: 1.8rem;
-    }
-    .ritual-image-box {
-        height: 300px;
-    }
-
-    /* Pulsanti Fluttuanti */
-    .floating-actions {
-        bottom: 20px;
-        right: 20px;
-        gap: 10px;
-    }
-    .btn-floating {
-        width: 46px;
-        height: 46px;
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .brand-main-title {
-        font-size: 2rem;
-    }
-    .btn-luxury {
-        padding: 15px 30px;
-        width: 100%; /* Il bottone diventa full-width comodo da cliccare sullo smartphone */
-    }
-}
-/* ==========================================================================
-   HAMBURGER MENU CORE STYLE
-   ========================================================================== */
-.hamburger-menu {
-    display: none; /* Nascosto su desktop */
-    flex-direction: column;
-    justify-content: space-between;
-    width: 26px;
-    height: 18px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 1100;
-}
-
-.hamburger-menu .bar {
-    width: 100%;
-    height: 2px;
-    background-color: var(--dark-text);
-    transition: var(--transition-smooth);
-}
-
-/* Animazione a "X" quando il menu si apre */
-.hamburger-menu.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-.hamburger-menu.active .bar:nth-child(2) {
-    opacity: 0;
-}
-.hamburger-menu.active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
-
-/* ==========================================================================
-   MODIFICA DELLE MEDIA QUERIES (Sostituisci il comportamento di .nav-links)
-   ========================================================================== */
-@media (max-width: 992px) {
+    /* Menu mobile a comparsa */
     .hamburger-menu {
-        display: flex; /* Mostra l'hamburger su mobile */
+        display: flex;
     }
 
-    /* Trasforma la nav in un menu a comparsa elegante */
     .nav-links {
         display: flex; 
         flex-direction: column;
@@ -667,15 +876,12 @@ h1, h2, h3 {
         gap: 40px;
         padding: 50px;
         z-index: 1050;
-        
-        /* Stato iniziale: nascosto in alto */
         transform: translateY(-100%);
         opacity: 0;
         pointer-events: none;
         transition: var(--transition-smooth);
     }
 
-    /* Quando il menu ha la classe .active, si mostra */
     .nav-links.active {
         transform: translateY(0);
         opacity: 1;
@@ -683,7 +889,149 @@ h1, h2, h3 {
     }
 
     .nav-links a {
-        font-size: 1.2rem; /* Testo più grande e leggibile da smartphone */
+        font-size: 1.2rem;
         letter-spacing: 3px;
+    }
+
+    /* Struttura Hero */
+    .hero-section {
+        padding: 160px 20px 80px 20px;
+    }
+
+    .brand-main-title {
+        font-size: 3.5rem;
+        letter-spacing: 4px;
+    }
+
+    /* Spaziature Generiche */
+    .experiences-section, 
+    .pillars-section, 
+    .gallery-section {
+        padding: 80px 30px;
+    }
+
+    .section-header {
+        margin-bottom: 60px;
+    }
+
+   /* Righe Trattamenti & Fix Immagini */
+    .ritual-row, 
+    .ritual-row.reverse {
+        display: block; /* Sganciamo il flexbox che creava il bug dell'altezza */
+        margin-bottom: 60px;
+    }
+
+    .ritual-image-box {
+        display: block;
+        width: 100%;
+        height: 400px; /* Ora il browser è obbligato a renderizzarlo alto 400px */
+        margin-bottom: 25px; /* Crea lo spazio visivo tra l'immagine e il testo sotto */
+    }
+
+    .img-placeholder {
+        display: block;
+        width: 100%;
+        height: 100%; /* Prende il 100% dei 400px del padre */
+    }
+
+    .ritual-text-box {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+    }
+
+    /* Griglie */
+    .pillars-container, 
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .gallery-grid {
+        height: auto;
+    }
+
+    .gallery-item {
+        height: 300px;
+    }
+}
+
+/* --- MOBILE LAYOUT (max-width: 768px) --- */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 12px 20px;
+    }
+
+    .navbar-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .logo-text {
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+    }
+
+    .brand-main-title {
+        font-size: 2.4rem;
+        letter-spacing: 2px;
+    }
+
+    .logo-container-fluid {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 25px;
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+    }
+
+    .manifesto-section {
+        padding: 80px 20px;
+    }
+
+    .manifesto-quote {
+        font-size: 1.6rem;
+    }
+
+    .ritual-text-box h3 {
+        font-size: 1.8rem;
+    }
+
+    .ritual-image-box {
+        height: 300px; /* Altezza del contenitore su Mobile */
+    }
+    
+    .img-placeholder {
+        height: 100%;  /* Mantiene il fix anche su smartphone */
+        width: 100%;
+    }
+
+    .floating-actions {
+        bottom: 20px;
+        right: 20px;
+        gap: 10px;
+    }
+
+    .btn-floating {
+        width: 46px;
+        height: 46px;
+        font-size: 1.2rem;
+    }
+}
+
+/* --- TINY DEVICES (max-width: 480px) --- */
+@media (max-width: 480px) {
+    .brand-main-title {
+        font-size: 2rem;
+    }
+
+    .btn-luxury {
+        padding: 15px 30px;
+        width: 100%;
     }
 }
