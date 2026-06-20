@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder fotografico per la home</title>
+  <desc id="desc">Ambiente estetico astratto nei toni beige, sostituibile con una fotografia reale.</desc>
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e7d9c6"/>
+      <stop offset="0.52" stop-color="#f3eadf"/>
+      <stop offset="1" stop-color="#d8c5ad"/>
+    </linearGradient>
+    <linearGradient id="light" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#fffdf8" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#fff9ee" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="mirror" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8f4ed"/>
+      <stop offset="1" stop-color="#cdbca8"/>
+    </linearGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#wall)"/>
+  <path d="M0 0h650L390 1000H0z" fill="url(#light)"/>
+  <circle cx="1340" cy="180" r="330" fill="#fffaf1" opacity="0.24" filter="url(#soft)"/>
+
+  <!-- Nicchia ad arco e specchio: danno l'idea di uno studio estetico elegante. -->
+  <path d="M1080 820V330c0-194 300-194 300 0v490z" fill="#d5c1a8" opacity="0.64"/>
+  <ellipse cx="1230" cy="455" rx="115" ry="205" fill="url(#mirror)" stroke="#9d856b" stroke-width="9" opacity="0.92"/>
+  <ellipse cx="1197" cy="400" rx="38" ry="118" fill="#ffffff" opacity="0.34" transform="rotate(19 1197 400)"/>
+
+  <!-- Lettino e tessili, volutamente morbidi e non fotografici. -->
+  <ellipse cx="895" cy="864" rx="410" ry="65" fill="#9e866d" opacity="0.18" filter="url(#soft)"/>
+  <path d="M620 710c0-36 29-65 65-65h432c45 0 82 37 82 82v54H620z" fill="#bda78d"/>
+  <path d="M598 702c0-33 27-60 60-60h454c31 0 56 25 56 56v45H598z" fill="#f5eee4"/>
+  <path d="M598 742h570l82 125H544z" fill="#d7c3aa"/>
+  <path d="M692 641c13-46 59-74 106-61l91 25c20 6 32 27 26 47l-5 18z" fill="#e7d9c7"/>
+
+  <!-- Pianta decorativa. -->
+  <path d="M270 835c26-180 31-325 10-455" fill="none" stroke="#877762" stroke-width="10" stroke-linecap="round"/>
+  <path d="M282 544c-82-27-103-86-91-151 65 14 104 63 91 151zM279 617c75-39 131-20 170 29-46 47-108 45-170-29zM274 460c63-48 112-40 154 0-34 52-92 61-154 0zM270 704c-70-19-101-66-96-123 57 7 96 47 96 123z" fill="#9b8e79" opacity="0.88"/>
+  <path d="M225 825h120l-18 125h-83z" fill="#ad957b"/>
+  <ellipse cx="285" cy="825" rx="62" ry="18" fill="#c7b49e"/>
+
+  <rect y="940" width="1600" height="60" fill="#bca990" opacity="0.34"/>
+</svg>
