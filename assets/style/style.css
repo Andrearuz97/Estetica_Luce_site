@@ -949,8 +949,8 @@ h1, h2, h3 {
 }
 
 .developer-link {
-    color:#2D2D2D;
-    text-decoration: none;
+color: #D4AF37;    
+text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
 }
