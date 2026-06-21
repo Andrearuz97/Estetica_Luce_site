@@ -188,7 +188,7 @@ h1, h2, h3 {
         radial-gradient(circle at 50% 42%, rgba(255, 253, 249, 0.76) 0, rgba(247, 239, 228, 0.42) 28%, transparent 52%),
         linear-gradient(90deg, rgba(238, 227, 212, 0.76) 0%, rgba(244, 236, 225, 0.62) 50%, rgba(230, 216, 198, 0.74) 100%),
         var(--hero-background-image) center 46% / cover no-repeat;
-    padding: 145px 24px 90px;
+    padding: 125px 24px 90px;
 }
 
 .hero-section::before,
@@ -1203,7 +1203,7 @@ text-decoration: none;
 /* --- TINY DEVICES (max-width: 480px) --- */
 @media (max-width: 480px) {
     .main-footer {
-        padding: 56px 20px 24px;
+        padding: 20px 20px 24px;
     }
 
     .main-footer::before {
