@@ -780,7 +780,7 @@ h1, h2, h3 {
 .review-card {
     position: relative;
     min-height: 300px;
-    padding: 30px;
+    padding: 30px 30px 68px;
     background: rgba(255, 255, 255, 0.64);
     border: 1px solid rgba(124, 102, 78, 0.12);
     box-shadow: 0 16px 42px rgba(92, 73, 52, 0.055);
@@ -813,6 +813,21 @@ h1, h2, h3 {
     font-size: 1.05rem;
 }
 
+.review-avatar-blue {
+    color: #ffffff;
+    background: #1976c9;
+}
+
+.review-avatar-teal {
+    color: #ffffff;
+    background: #169aa1;
+}
+
+.review-avatar-warm {
+    color: #ffffff;
+    background: #9b786a;
+}
+
 .review-card-top h3 {
     color: #403831;
     font-family: 'Montserrat', sans-serif;
@@ -835,13 +850,14 @@ h1, h2, h3 {
 
 .review-card > p {
     color: #5f564e;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-style: italic;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 300;
     line-height: 1.75;
 }
 
-.review-preview-label {
+.review-source-label {
     position: absolute;
     left: 30px;
     bottom: 26px;
