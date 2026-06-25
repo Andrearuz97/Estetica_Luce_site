@@ -59,18 +59,30 @@ if (galleryCarousel) {
         return slideWidth + gap;
     };
 
+    const isGalleryAtStart = () => galleryViewport.scrollLeft <= 2;
+    const isGalleryAtEnd = () => galleryViewport.scrollLeft + galleryViewport.clientWidth >= galleryViewport.scrollWidth - 2;
+
     const updateGalleryState = () => {
         const step = getGalleryStep();
         const currentIndex = step ? Math.round(galleryViewport.scrollLeft / step) : 0;
-        const isAtEnd = galleryViewport.scrollLeft + galleryViewport.clientWidth >= galleryViewport.scrollWidth - 2;
 
         galleryCurrent.textContent = String(Math.min(currentIndex + 1, gallerySlides.length)).padStart(2, "0");
         gallerySlides.forEach((slide, index) => slide.classList.toggle("is-active", index === currentIndex));
-        galleryPrev.disabled = galleryViewport.scrollLeft <= 2;
-        galleryNext.disabled = isAtEnd;
+        galleryPrev.disabled = gallerySlides.length <= 1;
+        galleryNext.disabled = gallerySlides.length <= 1;
     };
 
     const moveGallery = (direction) => {
+        if (direction > 0 && isGalleryAtEnd()) {
+            galleryViewport.scrollTo({ left: 0, behavior: "smooth" });
+            return;
+        }
+
+        if (direction < 0 && isGalleryAtStart()) {
+            galleryViewport.scrollTo({ left: galleryViewport.scrollWidth, behavior: "smooth" });
+            return;
+        }
+
         galleryViewport.scrollBy({ left: direction * getGalleryStep(), behavior: "smooth" });
     };
 
@@ -96,14 +108,7 @@ if (galleryCarousel) {
         galleryCarousel.classList.remove("is-paused", "is-autoplay-disabled");
         resetProgressAnimation();
         autoplayTimer = window.setTimeout(() => {
-            const isAtEnd = galleryViewport.scrollLeft + galleryViewport.clientWidth >= galleryViewport.scrollWidth - 2;
-
-            if (isAtEnd) {
-                galleryViewport.scrollTo({ left: 0, behavior: "smooth" });
-            } else {
-                moveGallery(1);
-            }
-
+            moveGallery(1);
             startAutoplay();
         }, autoplayDelay);
     };
@@ -154,18 +159,30 @@ if (reviewsCarousel) {
         return cardWidth + gap;
     };
 
+    const isReviewsAtStart = () => reviewsViewport.scrollLeft <= 2;
+    const isReviewsAtEnd = () => reviewsViewport.scrollLeft + reviewsViewport.clientWidth >= reviewsViewport.scrollWidth - 2;
+
     const updateReviewsState = () => {
         const step = getReviewsStep();
         const currentIndex = step ? Math.round(reviewsViewport.scrollLeft / step) : 0;
-        const isAtEnd = reviewsViewport.scrollLeft + reviewsViewport.clientWidth >= reviewsViewport.scrollWidth - 2;
-        const displayedIndex = isAtEnd ? reviewCards.length - 1 : currentIndex;
+        const displayedIndex = isReviewsAtEnd() ? reviewCards.length - 1 : currentIndex;
 
         reviewsCurrent.textContent = String(Math.min(displayedIndex + 1, reviewCards.length)).padStart(2, "0");
-        reviewsPrev.disabled = reviewsViewport.scrollLeft <= 2;
-        reviewsNext.disabled = isAtEnd;
+        reviewsPrev.disabled = reviewCards.length <= 1;
+        reviewsNext.disabled = reviewCards.length <= 1;
     };
 
     const moveReviews = (direction) => {
+        if (direction > 0 && isReviewsAtEnd()) {
+            reviewsViewport.scrollTo({ left: 0, behavior: "smooth" });
+            return;
+        }
+
+        if (direction < 0 && isReviewsAtStart()) {
+            reviewsViewport.scrollTo({ left: reviewsViewport.scrollWidth, behavior: "smooth" });
+            return;
+        }
+
         reviewsViewport.scrollBy({ left: direction * getReviewsStep(), behavior: "smooth" });
     };
 
@@ -191,14 +208,7 @@ if (reviewsCarousel) {
         reviewsCarousel.classList.remove("is-paused", "is-autoplay-disabled");
         resetReviewsProgress();
         reviewsAutoplayTimer = window.setTimeout(() => {
-            const isAtEnd = reviewsViewport.scrollLeft + reviewsViewport.clientWidth >= reviewsViewport.scrollWidth - 2;
-
-            if (isAtEnd) {
-                reviewsViewport.scrollTo({ left: 0, behavior: "smooth" });
-            } else {
-                moveReviews(1);
-            }
-
+            moveReviews(1);
             startReviewsAutoplay();
         }, reviewsAutoplayDelay);
     };
