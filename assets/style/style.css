@@ -159,7 +159,8 @@ h1, h2, h3 {
     width: 100%;
     height: 100%;
     max-width: none;
-    object-fit: fill;
+    object-fit: cover;
+    object-position: center;
     mix-blend-mode: multiply;
     filter: contrast(0.94);
 }
@@ -355,7 +356,8 @@ h1, h2, h3 {
     width: 100%;
     height: 100%;
     max-width: none;
-    object-fit: fill;
+    object-fit: cover;
+    object-position: center;
     mix-blend-mode: multiply;
     opacity: 0.84;
     filter: contrast(0.91) sepia(0.12);
