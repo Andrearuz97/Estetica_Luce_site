@@ -241,202 +241,214 @@ const setupCookieConsent = () => {
 
 setupCookieConsent();
 
-const galleryCarousel = document.querySelector("[data-gallery-carousel]");
+const setupLoopingCarousel = ({
+    carousel,
+    viewportSelector,
+    trackSelector,
+    itemSelector,
+    prevSelector,
+    nextSelector,
+    currentSelector,
+    progressSelector,
+    autoplayDelay,
+    activeClass,
+}) => {
+    if (!carousel) return;
 
-if (galleryCarousel) {
-    const galleryViewport = galleryCarousel.querySelector("[data-carousel-viewport]");
-    const galleryTrack = galleryCarousel.querySelector(".gallery-track");
-    const gallerySlides = [...galleryCarousel.querySelectorAll(".gallery-slide")];
-    const galleryPrev = galleryCarousel.querySelector("[data-carousel-prev]");
-    const galleryNext = galleryCarousel.querySelector("[data-carousel-next]");
-    const galleryCurrent = galleryCarousel.querySelector("[data-carousel-current]");
-    const galleryProgress = galleryCarousel.querySelector("[data-carousel-progress]");
-    const autoplayDelay = 3500;
+    const viewport = carousel.querySelector(viewportSelector);
+    const track = carousel.querySelector(trackSelector);
+    const originalItems = [...carousel.querySelectorAll(itemSelector)];
+    const previousButton = carousel.querySelector(prevSelector);
+    const nextButton = carousel.querySelector(nextSelector);
+    const currentLabel = carousel.querySelector(currentSelector);
+    const progress = carousel.querySelector(progressSelector);
+
+    if (!viewport || !track || !originalItems.length || !previousButton || !nextButton || !currentLabel || !progress) {
+        return;
+    }
+
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cloneCount = Math.min(3, originalItems.length);
     let autoplayTimer;
+    let loopCorrectionTimer;
+    let currentRealIndex = 0;
 
-    const getGalleryStep = () => {
-        const slideWidth = gallerySlides[0]?.getBoundingClientRect().width || 0;
-        const gap = parseFloat(window.getComputedStyle(galleryTrack).columnGap) || 0;
-        return slideWidth + gap;
+    const makeClone = (item) => {
+        const clone = item.cloneNode(true);
+        clone.classList.remove("is-active");
+        clone.classList.add("is-carousel-clone");
+        clone.setAttribute("aria-hidden", "true");
+        return clone;
     };
 
-    const isGalleryAtStart = () => galleryViewport.scrollLeft <= 2;
-    const isGalleryAtEnd = () => galleryViewport.scrollLeft + galleryViewport.clientWidth >= galleryViewport.scrollWidth - 2;
+    originalItems.slice(-cloneCount).reverse().forEach((item) => {
+        track.insertBefore(makeClone(item), track.firstChild);
+    });
 
-    const updateGalleryState = () => {
-        const step = getGalleryStep();
-        const currentIndex = step ? Math.round(galleryViewport.scrollLeft / step) : 0;
+    originalItems.slice(0, cloneCount).forEach((item) => {
+        track.appendChild(makeClone(item));
+    });
 
-        galleryCurrent.textContent = String(Math.min(currentIndex + 1, gallerySlides.length)).padStart(2, "0");
-        gallerySlides.forEach((slide, index) => slide.classList.toggle("is-active", index === currentIndex));
-        galleryPrev.disabled = gallerySlides.length <= 1;
-        galleryNext.disabled = gallerySlides.length <= 1;
+    const items = [...track.querySelectorAll(itemSelector)];
+
+    const getStep = () => {
+        if (items.length > 1) {
+            const firstItemLeft = items[0].getBoundingClientRect().left;
+            const secondItemLeft = items[1].getBoundingClientRect().left;
+            const measuredStep = Math.abs(secondItemLeft - firstItemLeft);
+
+            if (measuredStep) return measuredStep;
+        }
+
+        const itemWidth = originalItems[0]?.offsetWidth || originalItems[0]?.getBoundingClientRect().width || 0;
+        const gap = parseFloat(window.getComputedStyle(track).columnGap) || 0;
+        return itemWidth + gap;
     };
 
-    const moveGallery = (direction) => {
-        if (direction > 0 && isGalleryAtEnd()) {
-            galleryViewport.scrollTo({ left: 0, behavior: "smooth" });
-            return;
+    const getTrackIndex = () => {
+        const step = getStep();
+        return step ? Math.round(viewport.scrollLeft / step) : cloneCount;
+    };
+
+    const normalizeIndex = (trackIndex) => {
+        const shiftedIndex = trackIndex - cloneCount;
+        return ((shiftedIndex % originalItems.length) + originalItems.length) % originalItems.length;
+    };
+
+    const setInstantScroll = (trackIndex) => {
+        const previousScrollBehavior = viewport.style.scrollBehavior;
+        viewport.style.scrollBehavior = "auto";
+        viewport.scrollTo({ left: trackIndex * getStep(), behavior: "auto" });
+        viewport.style.scrollBehavior = previousScrollBehavior;
+    };
+
+    const updateState = () => {
+        const trackIndex = getTrackIndex();
+        currentRealIndex = normalizeIndex(trackIndex);
+        currentLabel.textContent = String(currentRealIndex + 1).padStart(2, "0");
+
+        if (activeClass) {
+            items.forEach((item, index) => {
+                item.classList.toggle(activeClass, index === trackIndex);
+            });
         }
 
-        if (direction < 0 && isGalleryAtStart()) {
-            galleryViewport.scrollTo({ left: galleryViewport.scrollWidth, behavior: "smooth" });
-            return;
+        previousButton.disabled = originalItems.length <= 1;
+        nextButton.disabled = originalItems.length <= 1;
+    };
+
+    const correctLoopPosition = () => {
+        const trackIndex = getTrackIndex();
+        let correctedIndex = null;
+
+        if (trackIndex >= cloneCount + originalItems.length) {
+            correctedIndex = trackIndex - originalItems.length;
+        } else if (trackIndex < cloneCount) {
+            correctedIndex = trackIndex + originalItems.length;
         }
 
-        galleryViewport.scrollBy({ left: direction * getGalleryStep(), behavior: "smooth" });
+        if (correctedIndex !== null) {
+            setInstantScroll(correctedIndex);
+            updateState();
+        }
+    };
+
+    const scheduleLoopCorrection = () => {
+        window.clearTimeout(loopCorrectionTimer);
+        loopCorrectionTimer = window.setTimeout(correctLoopPosition, 120);
+    };
+
+    const move = (direction) => {
+        viewport.scrollTo({ left: (getTrackIndex() + direction) * getStep(), behavior: "smooth" });
     };
 
     const resetProgressAnimation = () => {
-        galleryCarousel.classList.remove("is-timing");
-        void galleryProgress.offsetWidth;
-        galleryCarousel.classList.add("is-timing");
+        carousel.classList.remove("is-timing");
+        void progress.offsetWidth;
+        carousel.classList.add("is-timing");
     };
 
     const pauseAutoplay = () => {
         window.clearTimeout(autoplayTimer);
-        galleryCarousel.classList.add("is-paused");
+        carousel.classList.add("is-paused");
     };
 
     const startAutoplay = () => {
         window.clearTimeout(autoplayTimer);
 
         if (prefersReducedMotion || document.hidden) {
-            galleryCarousel.classList.add("is-autoplay-disabled");
+            carousel.classList.add("is-autoplay-disabled");
             return;
         }
 
-        galleryCarousel.classList.remove("is-paused", "is-autoplay-disabled");
+        carousel.classList.remove("is-paused", "is-autoplay-disabled");
         resetProgressAnimation();
         autoplayTimer = window.setTimeout(() => {
-            moveGallery(1);
+            move(1);
             startAutoplay();
         }, autoplayDelay);
     };
 
-    const moveGalleryManually = (direction) => {
-        moveGallery(direction);
+    const moveManually = (direction) => {
+        move(direction);
         startAutoplay();
     };
 
-    galleryPrev.addEventListener("click", () => moveGalleryManually(-1));
-    galleryNext.addEventListener("click", () => moveGalleryManually(1));
-    galleryViewport.addEventListener("scroll", updateGalleryState, { passive: true });
-    galleryViewport.addEventListener("pointerdown", pauseAutoplay);
-    galleryViewport.addEventListener("pointerup", startAutoplay);
-    galleryViewport.addEventListener("pointercancel", startAutoplay);
-    galleryCarousel.addEventListener("mouseenter", pauseAutoplay);
-    galleryCarousel.addEventListener("mouseleave", startAutoplay);
-    galleryCarousel.addEventListener("focusin", pauseAutoplay);
-    galleryCarousel.addEventListener("focusout", (event) => {
-        if (!galleryCarousel.contains(event.relatedTarget)) startAutoplay();
+    previousButton.addEventListener("click", () => moveManually(-1));
+    nextButton.addEventListener("click", () => moveManually(1));
+    viewport.addEventListener("scroll", () => {
+        updateState();
+        scheduleLoopCorrection();
+    }, { passive: true });
+    viewport.addEventListener("pointerdown", pauseAutoplay);
+    viewport.addEventListener("pointerup", startAutoplay);
+    viewport.addEventListener("pointercancel", startAutoplay);
+    viewport.addEventListener("touchstart", pauseAutoplay, { passive: true });
+    viewport.addEventListener("touchend", startAutoplay, { passive: true });
+    viewport.addEventListener("touchcancel", startAutoplay, { passive: true });
+    carousel.addEventListener("mouseenter", pauseAutoplay);
+    carousel.addEventListener("mouseleave", startAutoplay);
+    carousel.addEventListener("focusin", pauseAutoplay);
+    carousel.addEventListener("focusout", (event) => {
+        if (!carousel.contains(event.relatedTarget)) startAutoplay();
     });
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) pauseAutoplay();
         else startAutoplay();
     });
-    window.addEventListener("resize", updateGalleryState);
-    updateGalleryState();
-    startAutoplay();
-}
-
-const reviewsCarousel = document.querySelector("[data-reviews-carousel]");
-
-if (reviewsCarousel) {
-    const reviewsViewport = reviewsCarousel.querySelector("[data-reviews-viewport]");
-    const reviewsTrack = reviewsCarousel.querySelector(".reviews-grid");
-    const reviewCards = [...reviewsCarousel.querySelectorAll(".review-card")];
-    const reviewsPrev = reviewsCarousel.querySelector("[data-reviews-prev]");
-    const reviewsNext = reviewsCarousel.querySelector("[data-reviews-next]");
-    const reviewsCurrent = reviewsCarousel.querySelector("[data-reviews-current]");
-    const reviewsProgress = reviewsCarousel.querySelector("[data-reviews-progress]");
-    const reviewsAutoplayDelay = 3500;
-    const reviewsReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let reviewsAutoplayTimer;
-
-    const getReviewsStep = () => {
-        const cardWidth = reviewCards[0]?.getBoundingClientRect().width || 0;
-        const gap = parseFloat(window.getComputedStyle(reviewsTrack).columnGap) || 0;
-        return cardWidth + gap;
-    };
-
-    const isReviewsAtStart = () => reviewsViewport.scrollLeft <= 2;
-    const isReviewsAtEnd = () => reviewsViewport.scrollLeft + reviewsViewport.clientWidth >= reviewsViewport.scrollWidth - 2;
-
-    const updateReviewsState = () => {
-        const step = getReviewsStep();
-        const currentIndex = step ? Math.round(reviewsViewport.scrollLeft / step) : 0;
-        const displayedIndex = isReviewsAtEnd() ? reviewCards.length - 1 : currentIndex;
-
-        reviewsCurrent.textContent = String(Math.min(displayedIndex + 1, reviewCards.length)).padStart(2, "0");
-        reviewsPrev.disabled = reviewCards.length <= 1;
-        reviewsNext.disabled = reviewCards.length <= 1;
-    };
-
-    const moveReviews = (direction) => {
-        if (direction > 0 && isReviewsAtEnd()) {
-            reviewsViewport.scrollTo({ left: 0, behavior: "smooth" });
-            return;
-        }
-
-        if (direction < 0 && isReviewsAtStart()) {
-            reviewsViewport.scrollTo({ left: reviewsViewport.scrollWidth, behavior: "smooth" });
-            return;
-        }
-
-        reviewsViewport.scrollBy({ left: direction * getReviewsStep(), behavior: "smooth" });
-    };
-
-    const resetReviewsProgress = () => {
-        reviewsCarousel.classList.remove("is-timing");
-        void reviewsProgress.offsetWidth;
-        reviewsCarousel.classList.add("is-timing");
-    };
-
-    const pauseReviewsAutoplay = () => {
-        window.clearTimeout(reviewsAutoplayTimer);
-        reviewsCarousel.classList.add("is-paused");
-    };
-
-    const startReviewsAutoplay = () => {
-        window.clearTimeout(reviewsAutoplayTimer);
-
-        if (reviewsReducedMotion || document.hidden) {
-            reviewsCarousel.classList.add("is-autoplay-disabled");
-            return;
-        }
-
-        reviewsCarousel.classList.remove("is-paused", "is-autoplay-disabled");
-        resetReviewsProgress();
-        reviewsAutoplayTimer = window.setTimeout(() => {
-            moveReviews(1);
-            startReviewsAutoplay();
-        }, reviewsAutoplayDelay);
-    };
-
-    const moveReviewsManually = (direction) => {
-        moveReviews(direction);
-        startReviewsAutoplay();
-    };
-
-    reviewsPrev.addEventListener("click", () => moveReviewsManually(-1));
-    reviewsNext.addEventListener("click", () => moveReviewsManually(1));
-    reviewsViewport.addEventListener("scroll", updateReviewsState, { passive: true });
-    reviewsViewport.addEventListener("pointerdown", pauseReviewsAutoplay);
-    reviewsViewport.addEventListener("pointerup", startReviewsAutoplay);
-    reviewsViewport.addEventListener("pointercancel", startReviewsAutoplay);
-    reviewsCarousel.addEventListener("mouseenter", pauseReviewsAutoplay);
-    reviewsCarousel.addEventListener("mouseleave", startReviewsAutoplay);
-    reviewsCarousel.addEventListener("focusin", pauseReviewsAutoplay);
-    reviewsCarousel.addEventListener("focusout", (event) => {
-        if (!reviewsCarousel.contains(event.relatedTarget)) startReviewsAutoplay();
+    window.addEventListener("resize", () => {
+        setInstantScroll(cloneCount + currentRealIndex);
+        updateState();
     });
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden) pauseReviewsAutoplay();
-        else startReviewsAutoplay();
+
+    window.requestAnimationFrame(() => {
+        setInstantScroll(cloneCount);
+        updateState();
+        startAutoplay();
     });
-    window.addEventListener("resize", updateReviewsState);
-    updateReviewsState();
-    startReviewsAutoplay();
-}
+};
+
+setupLoopingCarousel({
+    carousel: document.querySelector("[data-gallery-carousel]"),
+    viewportSelector: "[data-carousel-viewport]",
+    trackSelector: ".gallery-track",
+    itemSelector: ".gallery-slide",
+    prevSelector: "[data-carousel-prev]",
+    nextSelector: "[data-carousel-next]",
+    currentSelector: "[data-carousel-current]",
+    progressSelector: "[data-carousel-progress]",
+    autoplayDelay: 3500,
+    activeClass: "is-active",
+});
+
+setupLoopingCarousel({
+    carousel: document.querySelector("[data-reviews-carousel]"),
+    viewportSelector: "[data-reviews-viewport]",
+    trackSelector: ".reviews-grid",
+    itemSelector: ".review-card",
+    prevSelector: "[data-reviews-prev]",
+    nextSelector: "[data-reviews-next]",
+    currentSelector: "[data-reviews-current]",
+    progressSelector: "[data-reviews-progress]",
+    autoplayDelay: 3500,
+});
