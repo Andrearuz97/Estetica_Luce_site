@@ -184,6 +184,7 @@ h1, h2, h3 {
     color: var(--accent-gold);
 }
 
+.nav-links a.is-active,
 .nav-links a[aria-current="page"] {
     color: var(--accent-gold);
 }
@@ -2636,5 +2637,165 @@ h1, h2, h3 {
     .btn-luxury {
         padding: 15px 30px;
         width: 100%;
+    }
+}
+
+/* Touch devices: avoid sticky hover states after taps. */
+@media (hover: none), (pointer: coarse) {
+    .logo-link:hover {
+        opacity: 1;
+        transform: none;
+    }
+
+    .logo-container-fluid:hover {
+        transform: none;
+        box-shadow: 0 22px 65px rgba(100, 79, 56, 0.1), inset 0 0 0 10px rgba(255, 255, 255, 0.13);
+    }
+
+    .nav-links a:hover {
+        color: var(--dark-text);
+    }
+
+    .nav-links a.is-active,
+    .nav-links a.is-active:hover,
+    .nav-links a[aria-current="page"],
+    .nav-links a[aria-current="page"]:hover {
+        color: var(--accent-gold);
+    }
+
+    .language-option:hover {
+        color: #6a5d50;
+        background: transparent;
+    }
+
+    .language-option[aria-current="page"],
+    .language-option[aria-current="page"]:hover {
+        color: #fffaf3;
+        background: #746351;
+    }
+
+    .btn-luxury:hover {
+        color: #fffaf3;
+        background-color: #786957;
+        border-color: #786957;
+        transform: none;
+        box-shadow: 0 12px 28px rgba(91, 74, 55, 0.12);
+    }
+
+    .btn-luxury-secondary:hover {
+        color: var(--white);
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.46);
+    }
+
+    .cookie-banner .btn-luxury-secondary:hover {
+        color: #746351;
+        background: transparent;
+        border-color: rgba(116, 99, 81, 0.34);
+    }
+
+    .ritual-image-box:hover .img-placeholder,
+    .gallery-slide:hover .gallery-item {
+        transform: none;
+    }
+
+    .btn-ritual-action:hover {
+        color: var(--dark-text);
+        padding-left: 0;
+    }
+
+    .gallery-arrow:hover:not(:disabled),
+    .reviews-arrow:hover:not(:disabled) {
+        color: #574b40;
+        background: rgba(255, 252, 247, 0.9);
+        border-color: rgba(112, 91, 68, 0.26);
+        transform: translateY(-50%);
+    }
+
+    .review-card:hover {
+        transform: none;
+        background: rgba(255, 255, 255, 0.64);
+        border-color: rgba(124, 102, 78, 0.12);
+        box-shadow: 0 16px 42px rgba(92, 73, 52, 0.055);
+    }
+
+    .btn-google-reviews:hover {
+        color: #4d4339;
+        background: transparent;
+        border-color: rgba(101, 82, 61, 0.38);
+    }
+
+    .social-card-box:hover {
+        transform: none;
+        border-color: rgba(140, 126, 109, 0.1);
+        box-shadow: 0 10px 30px rgba(140, 126, 109, 0.05);
+    }
+
+    .product-category-card:hover {
+        transform: none;
+        box-shadow: 0 16px 38px rgba(83, 65, 45, 0.055);
+    }
+
+    .btn-whatsapp:hover {
+        background: #746351;
+        transform: none;
+        box-shadow: 0 14px 34px rgba(79, 61, 43, 0.18);
+    }
+
+    .btn-whatsapp:hover .contact-whatsapp-arrow {
+        transform: none;
+    }
+
+    .footer-social-circle:hover {
+        color: rgba(255, 255, 255, 0.82);
+        background: rgba(255, 255, 255, 0.055);
+        border-color: rgba(255, 255, 255, 0.13);
+        transform: none;
+    }
+
+    .footer-nav a:hover {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .footer-nav a:hover::after {
+        width: 0;
+    }
+
+    .footer-info-link:hover {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .footer-legal-links a:hover,
+    .footer-legal-links button:hover {
+        color: rgba(255, 255, 255, 0.56);
+    }
+
+    .developer-link:hover {
+        color: #D4AF37;
+    }
+
+    .btn-floating:hover {
+        transform: none;
+        box-shadow: 0 8px 25px rgba(140, 126, 109, 0.15);
+    }
+
+    .btn-whatsapp-float:hover {
+        color: var(--white);
+        background-color: var(--taupe);
+    }
+
+    .btn-scroll:hover {
+        background-color: var(--white);
+    }
+
+    .btn-scroll:hover i {
+        color: var(--dark-text);
+    }
+}
+
+@media (max-width: 768px) and (hover: none), (max-width: 768px) and (pointer: coarse) {
+    .gallery-arrow:hover:not(:disabled),
+    .reviews-arrow:hover:not(:disabled) {
+        transform: none;
     }
 }

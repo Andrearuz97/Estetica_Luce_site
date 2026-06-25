@@ -39,6 +39,54 @@ if (hamburgerToggle && navLinks) {
     });
 }
 
+const setupActiveNavLinks = () => {
+    if (!navLinks) return;
+
+    const sectionLinks = [...navLinks.querySelectorAll('a[href^="#"]')]
+        .map((link) => {
+            const sectionId = decodeURIComponent(link.hash.slice(1));
+            const section = sectionId ? document.getElementById(sectionId) : null;
+            return section ? { link, section } : null;
+        })
+        .filter(Boolean);
+
+    if (sectionLinks.length < 2) return;
+
+    const setActiveLink = (activeLink) => {
+        sectionLinks.forEach(({ link }) => {
+            link.classList.toggle("is-active", link === activeLink);
+        });
+    };
+
+    const updateActiveLink = () => {
+        const headerOffset = document.querySelector(".main-header")?.offsetHeight || 0;
+        const probeY = window.scrollY + headerOffset + Math.min(window.innerHeight * 0.28, 190);
+        let activeLink = sectionLinks[0].link;
+
+        sectionLinks.forEach(({ link, section }) => {
+            if (section.offsetTop <= probeY) {
+                activeLink = link;
+            }
+        });
+
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+            activeLink = sectionLinks[sectionLinks.length - 1].link;
+        }
+
+        setActiveLink(activeLink);
+    };
+
+    sectionLinks.forEach(({ link }) => {
+        link.addEventListener("click", () => setActiveLink(link));
+    });
+
+    updateActiveLink();
+    window.addEventListener("scroll", updateActiveLink, { passive: true });
+    window.addEventListener("resize", updateActiveLink);
+};
+
+setupActiveNavLinks();
+
 const updateScrollTopButton = () => {
     scrollTopBtn.classList.toggle("show", window.scrollY > 300);
 };
