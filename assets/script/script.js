@@ -87,6 +87,74 @@ const setupActiveNavLinks = () => {
 
 setupActiveNavLinks();
 
+const setupScrollReveals = () => {
+    const revealSelectors = [
+        ".manifesto-section .container-small",
+        ".experiences-section > .section-header",
+        ".ritual-row",
+        ".pillars-container > .pillar-card",
+        ".gallery-section > .section-header",
+        ".gallery-carousel",
+        ".reviews-heading",
+        ".reviews-carousel",
+        ".reviews-footer",
+        ".social-header-block",
+        ".social-luxury-grid > .social-card-link",
+        ".products-intro-copy",
+        ".products-intro-image",
+        ".products-categories-section > .section-header",
+        ".product-category-grid > .product-category-card",
+        ".products-routine-copy",
+        ".routine-steps > .routine-step",
+        ".products-cta-band > *",
+        ".contact-container",
+        ".legal-page-header",
+        ".legal-content",
+        ".footer-main-grid > *",
+        ".footer-divider",
+        ".footer-bottom",
+    ];
+
+    const elements = [...new Set(revealSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]))];
+    if (!elements.length) return;
+
+    const delayByParent = new Map();
+
+    elements.forEach((element) => {
+        const parent = element.parentElement;
+        const siblingIndex = delayByParent.get(parent) || 0;
+        delayByParent.set(parent, siblingIndex + 1);
+
+        element.classList.add("reveal-on-scroll");
+        element.style.setProperty("--reveal-delay", `${Math.min(siblingIndex * 35, 140)}ms`);
+    });
+
+    const revealElement = (element) => {
+        element.classList.add("is-revealed");
+    };
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+        elements.forEach(revealElement);
+        return;
+    }
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            revealElement(entry.target);
+            observer.unobserve(entry.target);
+        });
+    }, {
+        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.08,
+    });
+
+    elements.forEach((element) => revealObserver.observe(element));
+};
+
+setupScrollReveals();
+
 const updateScrollTopButton = () => {
     scrollTopBtn.classList.toggle("show", window.scrollY > 300);
 };
