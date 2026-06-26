@@ -112,7 +112,6 @@ const setupScrollReveals = () => {
         ".legal-content",
         ".footer-main-grid > *",
         ".footer-divider",
-        ".footer-bottom",
     ];
 
     const elements = [...new Set(revealSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]))];
