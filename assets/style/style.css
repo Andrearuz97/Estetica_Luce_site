@@ -147,12 +147,6 @@ h1, h2, h3 {
     text-decoration: none;
     background: var(--bg-beige);
     border-radius: 50%;
-    transition: var(--transition-smooth);
-}
-
-.logo-link:hover {
-    opacity: 0.78;
-    transform: translateY(-1px);
 }
 
 .navbar-logo {
@@ -334,7 +328,6 @@ h1, h2, h3 {
     overflow: hidden;
     isolation: isolate;
     box-shadow: 0 22px 65px rgba(100, 79, 56, 0.1), inset 0 0 0 10px rgba(255, 255, 255, 0.13);
-    transition: var(--transition-smooth);
 }
 
 .logo-container-fluid::after {
@@ -345,11 +338,6 @@ h1, h2, h3 {
     border-radius: inherit;
     pointer-events: none;
     z-index: 2;
-}
-
-.logo-container-fluid:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 28px 72px rgba(100, 79, 56, 0.14), inset 0 0 0 10px rgba(255, 255, 255, 0.16);
 }
 
 .hero-brand-logo {
@@ -2670,16 +2658,6 @@ h1, h2, h3 {
 
 /* Touch devices: avoid sticky hover states after taps. */
 @media (hover: none), (pointer: coarse) {
-    .logo-link:hover {
-        opacity: 1;
-        transform: none;
-    }
-
-    .logo-container-fluid:hover {
-        transform: none;
-        box-shadow: 0 22px 65px rgba(100, 79, 56, 0.1), inset 0 0 0 10px rgba(255, 255, 255, 0.13);
-    }
-
     .nav-links a:hover {
         color: var(--dark-text);
     }
