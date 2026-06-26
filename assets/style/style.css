@@ -130,7 +130,7 @@ h1, h2, h3 {
     align-items: center;
     padding: 11px clamp(24px, 4vw, 56px);
     z-index: 1000;
-    background-color: rgba(242, 235, 225, 0.88);
+    background-color: var(--bg-beige);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(111, 92, 70, 0.1);
     box-shadow: 0 8px 30px rgba(80, 65, 47, 0.035);
