@@ -131,15 +131,19 @@ h1, h2, h3 {
    3. BACKGROUND IMAGES MAPPING (Sostituzione stili inline)
    ========================================================================== */
 /* Trattamenti */
-.trattamento-1 { background-image: url('https://italianbeautyacademy.com/wp-content/uploads/2020/03/manicure-curativa.jpg'); }
-.trattamento-2 { background-image: url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop'); }
-.trattamento-3 { background-image: url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1200&auto=format&fit=crop'); }
-.trattamento-4 { background-image: url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop'); }
-.trattamento-5 { background-image: url('https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=1200&auto=format&fit=crop'); }
+.trattamento-1 { --image-position: center 42%; background-image: url('../img/20241011_130550.jpg'); }
+.trattamento-2 { --image-position: center 45%; background-image: url('../img/20260620_184953.jpg'); }
+.trattamento-3 { --image-position: center 48%; background-image: url('../img/Cabina-corpo.jpg'); }
+.trattamento-4 { --image-position: center 48%; background-image: url('../img/InCollage_20260509_194351386.jpg'); }
+.trattamento-5 { --image-position: center 48%; background-image: url('../img/InCollage_20250507_222805768.jpg'); }
 
 /* Galleria */
-.foto-1 { background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop'); }
-.foto-2 { background-image: url('https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=800&auto=format&fit=crop'); }
+.gallery-photo-ingresso { --image-position: center 50%; background-image: url('../img/Ingresso.jpg'); }
+.gallery-photo-logo { --image-position: center 38%; background-image: url('../img/Logo-parete.jpg'); }
+.gallery-photo-cabina-corpo { --image-position: center 48%; background-image: url('../img/Cabina-corpo.jpg'); }
+.gallery-photo-cabina-mani { --image-position: center 48%; background-image: url('../img/Cabina-mani-1.jpg'); }
+.gallery-photo-marzia { --image-position: center 45%; background-image: url('../img/20260620_184953.jpg'); }
+.gallery-photo-specchio { --image-position: center 50%; background-image: url('../img/specchio.jpg'); }
 
 /* ==========================================================================
    4. HEADER & NAVIGATION
@@ -507,7 +511,7 @@ h1, h2, h3 {
     width: 100%;
     height: 100%;
     background-size: cover;
-    background-position: center;
+    background-position: var(--image-position, center);
     transition: transform 0.8s ease;
 }
 
@@ -720,7 +724,7 @@ h1, h2, h3 {
     width: 100%;
     height: 100%;
     background-size: cover;
-    background-position: center;
+    background-position: var(--image-position, center);
     transition: transform 0.8s ease;
 }
 
