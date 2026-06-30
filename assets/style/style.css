@@ -140,7 +140,6 @@ h1, h2, h3 {
 /* Galleria */
 .foto-1 { background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop'); }
 .foto-2 { background-image: url('https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=800&auto=format&fit=crop'); }
-.foto-3 { background-image: url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop'); }
 
 /* ==========================================================================
    4. HEADER & NAVIGATION
@@ -461,20 +460,22 @@ h1, h2, h3 {
     text-align: center;
 }
 
-.manifesto-quote {
+.manifesto-content h2 {
+    margin-bottom: 28px;
+    color: #39332d;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem;
-    font-style: italic;
-    line-height: 1.4;
-    color: var(--dark-text);
-    margin-bottom: 30px;
+    font-size: clamp(2.4rem, 5vw, 4.1rem);
+    font-weight: 400;
+    line-height: 1.05;
 }
 
-.manifesto-author {
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: var(--taupe);
+.manifesto-copy {
+    display: grid;
+    gap: 18px;
+    color: #665b50;
+    font-size: clamp(1rem, 2vw, 1.14rem);
+    font-weight: 300;
+    line-height: 1.85;
 }
 
 /* --- Experiences / Rituals --- */
@@ -1519,6 +1520,7 @@ h1, h2, h3 {
     overflow: hidden;
     padding: 28px 24px 24px;
     background:
+        linear-gradient(90deg, var(--line-color), var(--line-color-alt)) top / 100% 6px no-repeat,
         linear-gradient(180deg, var(--line-soft) 0%, rgba(255, 255, 255, 0.94) 58%, #fffaf4 100%);
     border: 1px solid rgba(126, 105, 81, 0.13);
     border-radius: 8px;
@@ -1526,12 +1528,53 @@ h1, h2, h3 {
     transition: var(--transition-smooth);
 }
 
+.marzia-line-orange { --line-color: #FF9900; --line-color-alt: #D48309; --line-soft: #FFF3E0; }
+.marzia-line-red { --line-color: #DD0806; --line-color-alt: #BA110E; --line-soft: #FBE1E1; }
+.marzia-line-lime { --line-color: #99CC00; --line-color-alt: #85AA09; --line-soft: #F3F9E0; }
+.marzia-line-lavender { --line-color: #CC99FF; --line-color-alt: #AD83D0; --line-soft: #F9F3FF; }
+.marzia-line-blue { --line-color: #3366FF; --line-color-alt: #355BD0; --line-soft: #E7EDFF; }
+.marzia-line-tangerine { --line-color: #FF6600; --line-color-alt: #D45B09; --line-soft: #FFEDE0; }
+.marzia-line-deep-teal { --line-color: #11807F; --line-color-alt: #1B6F6D; --line-soft: #E2F0F0; }
+.marzia-line-teal { --line-color: #008080; --line-color-alt: #0D6F6D; --line-soft: #E0F0F0; }
+.marzia-line-cyan { --line-color: #33CCCC; --line-color-alt: #35AAA9; --line-soft: #E7F9F9; }
+.marzia-line-green { --line-color: #92D050; --line-color-alt: #7FAD48; --line-soft: #F2F9EA; }
+.marzia-line-yellow { --line-color: #FFFF00; --line-color-alt: #D4D209; --line-soft: #FFFFE0; }
+.marzia-line-bronze { --line-color: #90713A; --line-color-alt: #7E6337; --line-soft: #F2EEE7; }
+.marzia-line-black { --line-color: #000000; --line-color-alt: #5F5143; --line-soft: #E0E0E0; }
+.marzia-line-silver { --line-color: #B3B3B3; --line-color-alt: #999795; --line-soft: #F6F6F6; }
+.marzia-line-bright-green { --line-color: #4EE257; --line-color-alt: #4ABC4D; --line-soft: #EAFCEB; }
+.marzia-line-gray { --line-color: #999999; --line-color-alt: #858381; --line-soft: #F3F3F3; }
+.marzia-line-sky { --line-color: #00ABEA; --line-color-alt: #0D91C0; --line-soft: #E0F5FC; }
+.marzia-line-lemon { --line-color: #FCF305; --line-color-alt: #D2C90D; --line-soft: #FFFEE1; }
+.marzia-line-denim { --line-color: #366092; --line-color-alt: #38567B; --line-soft: #E7ECF2; }
+.marzia-line-pink { --line-color: #FF99CC; --line-color-alt: #D483A9; --line-soft: #FFF3F9; }
+.marzia-line-mint { --line-color: #5BE292; --line-color-alt: #54BC7B; --line-soft: #EBFCF2; }
+.marzia-line-fuchsia { --line-color: #FF40FF; --line-color-alt: #D43DD0; --line-soft: #FFE8FF; }
+.marzia-line-blush { --line-color: #FFE1FD; --line-color-alt: #D4BBCF; --line-soft: #FFFBFF; }
+.marzia-line-wine { --line-color: #943541; --line-color-alt: #81353C; --line-soft: #F2E7E8; }
+.marzia-line-alert { --line-color: #FF0000; --line-color-alt: #D40B09; --line-soft: #FFE0E0; }
+
 .marzia-line-card::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto;
-    height: 6px;
-    background: linear-gradient(90deg, var(--line-color), var(--line-color-alt));
+    content: 'Linea Marzia Clinic';
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 26px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    color: #5f5143;
+    background: rgba(255, 255, 255, 0.56);
+    border: 1px solid rgba(126, 105, 81, 0.14);
+    border-left: 3px solid var(--line-color);
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+}
+
+html[lang="en"] .marzia-line-card::before {
+    content: 'Marzia Clinic line';
 }
 
 .marzia-line-card::after {
@@ -1550,37 +1593,12 @@ h1, h2, h3 {
     box-shadow: 0 26px 58px rgba(83, 65, 45, 0.1);
 }
 
-.marzia-line-kicker {
-    display: inline-flex;
-    align-items: center;
-    width: fit-content;
-    min-height: 26px;
-    margin-bottom: 20px;
-    padding: 0 10px;
-    color: #5f5143;
-    background: rgba(255, 255, 255, 0.56);
-    border: 1px solid rgba(126, 105, 81, 0.14);
-    border-left: 3px solid var(--line-color);
-    border-radius: 999px;
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
-}
-
 .marzia-line-card h3 {
     margin-bottom: 0;
     color: #39332d;
     font-size: 1.62rem;
     line-height: 1.08;
     overflow-wrap: anywhere;
-}
-
-.marzia-line-card p {
-    color: #665b50;
-    font-size: 0.88rem;
-    font-weight: 300;
-    line-height: 1.7;
 }
 
 .marzia-products-note {
@@ -2803,8 +2821,12 @@ h1, h2, h3 {
         padding: 80px 20px;
     }
 
-    .manifesto-quote {
-        font-size: 1.6rem;
+    .manifesto-content h2 {
+        font-size: 2.35rem;
+    }
+
+    .manifesto-copy {
+        text-align: left;
     }
 
     .ritual-text-box h3 {
