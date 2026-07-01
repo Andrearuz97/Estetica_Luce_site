@@ -1434,9 +1434,9 @@ h1, h2, h3 {
     --line-soft: #f7efe5;
     position: relative;
     display: flex;
-    min-height: 168px;
+    min-height: 250px;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     overflow: hidden;
     padding: 28px 24px 24px;
     background:
@@ -1453,7 +1453,9 @@ h1, h2, h3 {
 .marzia-line-green { --line-color: #92D050; --line-color-alt: #7FAD48; --line-soft: #F2F9EA; }
 .marzia-line-bronze { --line-color: #90713A; --line-color-alt: #7E6337; --line-soft: #F2EEE7; }
 .marzia-line-lemon { --line-color: #FCF305; --line-color-alt: #D2C90D; --line-soft: #FFFEE1; }
+.marzia-line-blue { --line-color: #3366FF; --line-color-alt: #355BD0; --line-soft: #E7EDFF; }
 .marzia-line-denim { --line-color: #366092; --line-color-alt: #38567B; --line-soft: #E7ECF2; }
+.marzia-line-magenta { --line-color: #FF40FF; --line-color-alt: #D43DD0; --line-soft: #FFE8FF; }
 .marzia-line-blush { --line-color: #FFE1FD; --line-color-alt: #D4BBCF; --line-soft: #FFFBFF; }
 
 .marzia-line-card::before {
@@ -1484,7 +1486,7 @@ html[lang="en"] .marzia-line-card::before {
     display: block;
     width: 46px;
     height: 3px;
-    margin-top: 26px;
+    margin-top: auto;
     background: linear-gradient(90deg, var(--line-color), var(--line-color-alt));
     border-radius: 999px;
 }
@@ -1496,11 +1498,19 @@ html[lang="en"] .marzia-line-card::before {
 }
 
 .marzia-line-card h3 {
-    margin-bottom: 0;
+    margin-bottom: 14px;
     color: #39332d;
     font-size: 1.62rem;
     line-height: 1.08;
     overflow-wrap: anywhere;
+}
+
+.marzia-line-description {
+    margin: 0 0 22px;
+    color: #70665a;
+    font-size: 0.79rem;
+    font-weight: 300;
+    line-height: 1.62;
 }
 
 .marzia-products-note {
