@@ -18,6 +18,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="preload" as="image" href="../assets/img/optimized/prodotti-1800.jpg"
+        media="(min-width: 769px)" fetchpriority="high">
+    <link rel="preload" as="image" href="../assets/img/optimized/prodotti-960.jpg"
+        media="(max-width: 768px)" fetchpriority="high">
     <link rel="canonical" href="https://esteticaluce.it/prodotti/">
     <link rel="alternate" hreflang="it" href="https://esteticaluce.it/prodotti/">
     <link rel="alternate" hreflang="en" href="https://esteticaluce.it/en/products/">
@@ -107,7 +111,8 @@
 
     <header class="main-header">
         <a href="../index.html#home" class="logo-link" title="Torna alla Home">
-            <img src="../assets/img/logo-estetica-luce.png" alt="Estetica Luce" class="navbar-logo">
+            <img src="../assets/img/logo-estetica-luce.png" alt="Estetica Luce" class="navbar-logo" width="666"
+                height="612" decoding="async">
         </a>
         <nav class="nav-links">
             <a href="../index.html#home">Home</a>

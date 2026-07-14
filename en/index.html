@@ -18,6 +18,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="preload" as="image" href="../assets/img/optimized/cabina-rituale-1200.jpg"
+        media="(min-width: 769px)" fetchpriority="high">
+    <link rel="preload" as="image" href="../assets/img/optimized/cabina-rituale-900.jpg"
+        media="(max-width: 768px)" fetchpriority="high">
     <link rel="canonical" href="https://esteticaluce.it/en/">
     <link rel="alternate" hreflang="it" href="https://esteticaluce.it/">
     <link rel="alternate" hreflang="en" href="https://esteticaluce.it/en/">
@@ -136,7 +140,8 @@
 
     <header class="main-header">
         <a href="#home" class="logo-link" title="Back to Home">
-            <img src="../assets/img/logo-estetica-luce.png" alt="Estetica Luce" class="navbar-logo">
+            <img src="../assets/img/logo-estetica-luce.png" alt="Estetica Luce" class="navbar-logo" width="666"
+                height="612" decoding="async">
         </a>
         <nav class="nav-links">
             <a href="#home">Home</a>
@@ -168,7 +173,8 @@
         <div class="hero-content">
             <!--<span class="hero-eyebrow">Centro estetico &middot; Olbia</span>-->
             <div class="logo-container-fluid">
-                <img src="../assets/img/logo-estetica-luce.png" alt="Estetica Luce logo" class="hero-brand-logo">
+                <img src="../assets/img/logo-estetica-luce.png" alt="Estetica Luce logo" class="hero-brand-logo"
+                    width="666" height="612" decoding="async">
             </div>
 
             <h1 class="brand-main-title">Estetica Luce</h1>
@@ -309,7 +315,7 @@
     <section class="gallery-section">
         <div class="section-header">
             <h2>Your Private Refuge</h2>
-            <p>Treatments, details and glimpses of the studio: an intimate environment where every gesture invites you to slow down.</p>
+            <p>Spaces, treatment rooms and products from the studio: an intimate environment where every gesture invites you to slow down.</p>
         </div>
 
         <div class="gallery-carousel" data-gallery-carousel>
@@ -319,29 +325,21 @@
 
             <div class="gallery-viewport" data-carousel-viewport tabindex="0" aria-label="Studio spaces and details carousel">
                 <div class="gallery-track">
-                    <article class="gallery-slide is-active" aria-label="1 of 6">
+                    <article class="gallery-slide is-active" aria-label="1 of 4">
                         <div class="gallery-item gallery-photo-ingresso"></div>
                         <div class="gallery-caption"><span>The studio</span><h3>Entrance</h3></div>
                     </article>
-                    <article class="gallery-slide" aria-label="2 of 6">
-                        <div class="gallery-item gallery-photo-logo"></div>
-                        <div class="gallery-caption"><span>Atmosphere</span><h3>Logo Wall</h3></div>
-                    </article>
-                    <article class="gallery-slide" aria-label="3 of 6">
+                    <article class="gallery-slide" aria-label="2 of 4">
                         <div class="gallery-item gallery-photo-cabina-corpo"></div>
-                        <div class="gallery-caption"><span>Body room</span><h3>Relax & Wellbeing</h3></div>
+                        <div class="gallery-caption"><span>Body room</span><h3>Treatments & Wellbeing</h3></div>
                     </article>
-                    <article class="gallery-slide" aria-label="4 of 6">
+                    <article class="gallery-slide" aria-label="3 of 4">
                         <div class="gallery-item gallery-photo-cabina-mani"></div>
                         <div class="gallery-caption"><span>Hands room</span><h3>Hands & Feet</h3></div>
                     </article>
-                    <article class="gallery-slide" aria-label="5 of 6">
+                    <article class="gallery-slide" aria-label="4 of 4">
                         <div class="gallery-item gallery-photo-marzia"></div>
                         <div class="gallery-caption"><span>Marzia Clinic</span><h3>In-Studio Products</h3></div>
-                    </article>
-                    <article class="gallery-slide" aria-label="6 of 6">
-                        <div class="gallery-item gallery-photo-specchio"></div>
-                        <div class="gallery-caption"><span>Details</span><h3>Mirror and Light</h3></div>
                     </article>
                 </div>
             </div>
@@ -351,9 +349,9 @@
             </button>
 
             <div class="gallery-meta">
-                <p>Explore the spaces, details and products that accompany the treatments</p>
+                <p>Explore the spaces and products that accompany the treatments</p>
                 <span class="gallery-timer" aria-hidden="true"><span data-carousel-progress></span></span>
-                <span class="gallery-counter"><strong data-carousel-current>01</strong> / 06</span>
+                <span class="gallery-counter"><strong data-carousel-current>01</strong> / 04</span>
             </div>
         </div>
     </section>

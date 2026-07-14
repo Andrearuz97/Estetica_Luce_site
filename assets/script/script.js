@@ -310,6 +310,309 @@ const setupCookieConsent = () => {
 
 setupCookieConsent();
 
+const setupGalleryCarousel = ({
+    carousel,
+    viewportSelector,
+    trackSelector,
+    itemSelector,
+    prevSelector,
+    nextSelector,
+    currentSelector,
+    progressSelector,
+    autoplayDelay,
+    activeClass,
+}) => {
+    if (!carousel) return;
+
+    const viewport = carousel.querySelector(viewportSelector);
+    const track = carousel.querySelector(trackSelector);
+    const originalItems = [...carousel.querySelectorAll(itemSelector)];
+    const previousButton = carousel.querySelector(prevSelector);
+    const nextButton = carousel.querySelector(nextSelector);
+    const currentLabel = carousel.querySelector(currentSelector);
+    const progress = carousel.querySelector(progressSelector);
+
+    if (!viewport || !track || !originalItems.length || !previousButton || !nextButton || !currentLabel || !progress) {
+        return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cloneCount = originalItems.length > 1 ? Math.min(2, originalItems.length) : 0;
+    const transitionMs = prefersReducedMotion ? 0 : 1100;
+    let trackIndex = cloneCount;
+    let currentRealIndex = 0;
+    let autoplayTimer;
+    let transitionTimer;
+    let isAnimating = false;
+    let isPointerDown = false;
+    let didDrag = false;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let dragOffset = 0;
+    let wheelDelta = 0;
+    let wheelResetTimer;
+    let lastWheelMoveAt = 0;
+
+    carousel.style.setProperty("--carousel-timer-duration", `${autoplayDelay}ms`);
+
+    const makeClone = (item) => {
+        const clone = item.cloneNode(true);
+        if (activeClass) clone.classList.remove(activeClass);
+        clone.classList.add("is-carousel-clone");
+        clone.setAttribute("aria-hidden", "true");
+        return clone;
+    };
+
+    if (cloneCount) {
+        originalItems.slice(-cloneCount).reverse().forEach((item) => {
+            track.insertBefore(makeClone(item), track.firstChild);
+        });
+
+        originalItems.slice(0, cloneCount).forEach((item) => {
+            track.appendChild(makeClone(item));
+        });
+    }
+
+    const items = [...track.querySelectorAll(itemSelector)];
+
+    const getGap = () => parseFloat(window.getComputedStyle(track).columnGap) || 0;
+    const getStep = () => {
+        const firstItem = items[0];
+        return firstItem ? firstItem.offsetWidth + getGap() : 0;
+    };
+
+    const normalizeIndex = (index) => {
+        const shiftedIndex = index - cloneCount;
+        return ((shiftedIndex % originalItems.length) + originalItems.length) % originalItems.length;
+    };
+
+    const getTranslateX = (index) => -(index * getStep());
+
+    const setPosition = (index, animate = true, offset = 0) => {
+        track.style.transition = animate && transitionMs
+            ? `transform ${transitionMs}ms cubic-bezier(0.22, 1, 0.36, 1)`
+            : "none";
+        track.style.transform = `translate3d(${getTranslateX(index) + offset}px, 0, 0)`;
+    };
+
+    const updateState = () => {
+        currentRealIndex = normalizeIndex(trackIndex);
+        currentLabel.textContent = String(currentRealIndex + 1).padStart(2, "0");
+
+        if (activeClass) {
+            items.forEach((item, index) => {
+                item.classList.toggle(activeClass, normalizeIndex(index) === currentRealIndex);
+            });
+        }
+
+        previousButton.disabled = originalItems.length <= 1;
+        nextButton.disabled = originalItems.length <= 1;
+    };
+
+    const clearTransitionFallback = () => {
+        window.clearTimeout(transitionTimer);
+    };
+
+    const finishTransition = () => {
+        clearTransitionFallback();
+
+        if (trackIndex >= cloneCount + originalItems.length) {
+            trackIndex = cloneCount;
+            setPosition(trackIndex, false);
+        } else if (trackIndex < cloneCount) {
+            trackIndex = cloneCount + originalItems.length - 1;
+            setPosition(trackIndex, false);
+        }
+
+        updateState();
+        isAnimating = false;
+    };
+
+    const armTransitionFallback = () => {
+        clearTransitionFallback();
+        transitionTimer = window.setTimeout(finishTransition, transitionMs + 80);
+    };
+
+    const move = (direction) => {
+        if (originalItems.length <= 1 || isAnimating) return false;
+
+        isAnimating = true;
+        trackIndex += direction;
+        setPosition(trackIndex, true);
+        updateState();
+
+        if (transitionMs) {
+            armTransitionFallback();
+        } else {
+            finishTransition();
+        }
+
+        return true;
+    };
+
+    const resetProgressAnimation = () => {
+        carousel.classList.remove("is-timing");
+        void progress.offsetWidth;
+        carousel.classList.add("is-timing");
+    };
+
+    const pauseAutoplay = () => {
+        window.clearTimeout(autoplayTimer);
+        carousel.classList.add("is-paused");
+    };
+
+    const startAutoplay = () => {
+        window.clearTimeout(autoplayTimer);
+
+        if (prefersReducedMotion || document.hidden || originalItems.length <= 1) {
+            carousel.classList.add("is-autoplay-disabled");
+            return;
+        }
+
+        carousel.classList.remove("is-paused", "is-autoplay-disabled");
+        resetProgressAnimation();
+        autoplayTimer = window.setTimeout(() => {
+            move(1);
+            startAutoplay();
+        }, autoplayDelay);
+    };
+
+    const moveManually = (direction) => {
+        move(direction);
+        startAutoplay();
+    };
+
+    const scheduleWheelReset = () => {
+        window.clearTimeout(wheelResetTimer);
+        wheelResetTimer = window.setTimeout(() => {
+            wheelDelta = 0;
+            startAutoplay();
+        }, transitionMs + 260);
+    };
+
+    const handleWheel = (event) => {
+        const horizontalDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY)
+            ? event.deltaX
+            : event.shiftKey
+                ? event.deltaY
+                : 0;
+
+        if (!horizontalDelta) return;
+
+        event.preventDefault();
+        pauseAutoplay();
+
+        if (isAnimating || originalItems.length <= 1) {
+            scheduleWheelReset();
+            return;
+        }
+
+        const now = Date.now();
+        const wheelCooldown = transitionMs + 180;
+
+        if (now - lastWheelMoveAt < wheelCooldown) {
+            scheduleWheelReset();
+            return;
+        }
+
+        wheelDelta += horizontalDelta;
+
+        const threshold = Math.min(220, Math.max(120, viewport.clientWidth * 0.22));
+
+        if (Math.abs(wheelDelta) >= threshold) {
+            const direction = wheelDelta > 0 ? 1 : -1;
+            wheelDelta = 0;
+            lastWheelMoveAt = now;
+            move(direction);
+        }
+
+        scheduleWheelReset();
+    };
+
+    const endDrag = () => {
+        if (!isPointerDown) return;
+
+        isPointerDown = false;
+        carousel.classList.remove("is-dragging");
+
+        const threshold = Math.min(140, Math.max(48, viewport.clientWidth * 0.14));
+
+        if (didDrag && Math.abs(dragOffset) >= threshold) {
+            move(dragOffset < 0 ? 1 : -1);
+        } else if (didDrag) {
+            isAnimating = true;
+            setPosition(trackIndex, true);
+            armTransitionFallback();
+        }
+
+        didDrag = false;
+        dragOffset = 0;
+        startAutoplay();
+    };
+
+    previousButton.addEventListener("click", () => moveManually(-1));
+    nextButton.addEventListener("click", () => moveManually(1));
+    track.addEventListener("transitionend", (event) => {
+        if (event.target === track && event.propertyName === "transform") {
+            finishTransition();
+        }
+    });
+    viewport.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            moveManually(-1);
+        } else if (event.key === "ArrowRight") {
+            event.preventDefault();
+            moveManually(1);
+        }
+    });
+    viewport.addEventListener("wheel", handleWheel, { passive: false });
+    viewport.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || isAnimating) return;
+
+        pauseAutoplay();
+        isPointerDown = true;
+        didDrag = false;
+        dragOffset = 0;
+        pointerStartX = event.clientX;
+        pointerStartY = event.clientY;
+        viewport.setPointerCapture?.(event.pointerId);
+    });
+    viewport.addEventListener("pointermove", (event) => {
+        if (!isPointerDown) return;
+
+        const deltaX = event.clientX - pointerStartX;
+        const deltaY = event.clientY - pointerStartY;
+
+        if (Math.abs(deltaX) <= 6 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+        event.preventDefault();
+        didDrag = true;
+        dragOffset = deltaX * 0.36;
+        carousel.classList.add("is-dragging");
+        setPosition(trackIndex, false, dragOffset);
+    });
+    viewport.addEventListener("pointerup", endDrag);
+    viewport.addEventListener("pointercancel", endDrag);
+    carousel.addEventListener("mouseenter", pauseAutoplay);
+    carousel.addEventListener("mouseleave", startAutoplay);
+    carousel.addEventListener("focusin", pauseAutoplay);
+    carousel.addEventListener("focusout", (event) => {
+        if (!carousel.contains(event.relatedTarget)) startAutoplay();
+    });
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) pauseAutoplay();
+        else startAutoplay();
+    });
+    window.addEventListener("resize", () => {
+        setPosition(trackIndex, false);
+    });
+
+    setPosition(trackIndex, false);
+    updateState();
+    window.requestAnimationFrame(startAutoplay);
+};
+
 const setupLoopingCarousel = ({
     carousel,
     viewportSelector,
@@ -338,9 +641,11 @@ const setupLoopingCarousel = ({
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const cloneCount = Math.min(3, originalItems.length);
+    const supportsScrollEnd = "onscrollend" in viewport;
     let autoplayTimer;
     let loopCorrectionTimer;
     let currentRealIndex = 0;
+    let isCorrectingLoop = false;
 
     const makeClone = (item) => {
         const clone = item.cloneNode(true);
@@ -386,9 +691,14 @@ const setupLoopingCarousel = ({
 
     const setInstantScroll = (trackIndex) => {
         const previousScrollBehavior = viewport.style.scrollBehavior;
+        const previousScrollSnapType = viewport.style.scrollSnapType;
         viewport.style.scrollBehavior = "auto";
+        viewport.style.scrollSnapType = "none";
         viewport.scrollTo({ left: trackIndex * getStep(), behavior: "auto" });
         viewport.style.scrollBehavior = previousScrollBehavior;
+        window.requestAnimationFrame(() => {
+            viewport.style.scrollSnapType = previousScrollSnapType;
+        });
     };
 
     const updateState = () => {
@@ -417,14 +727,20 @@ const setupLoopingCarousel = ({
         }
 
         if (correctedIndex !== null) {
+            isCorrectingLoop = true;
             setInstantScroll(correctedIndex);
             updateState();
+            window.requestAnimationFrame(() => {
+                isCorrectingLoop = false;
+            });
         }
     };
 
     const scheduleLoopCorrection = () => {
+        if (supportsScrollEnd) return;
+
         window.clearTimeout(loopCorrectionTimer);
-        loopCorrectionTimer = window.setTimeout(correctLoopPosition, 120);
+        loopCorrectionTimer = window.setTimeout(correctLoopPosition, 260);
     };
 
     const move = (direction) => {
@@ -466,9 +782,14 @@ const setupLoopingCarousel = ({
     previousButton.addEventListener("click", () => moveManually(-1));
     nextButton.addEventListener("click", () => moveManually(1));
     viewport.addEventListener("scroll", () => {
+        if (isCorrectingLoop) return;
+
         updateState();
         scheduleLoopCorrection();
     }, { passive: true });
+    if (supportsScrollEnd) {
+        viewport.addEventListener("scrollend", correctLoopPosition);
+    }
     viewport.addEventListener("pointerdown", pauseAutoplay);
     viewport.addEventListener("pointerup", startAutoplay);
     viewport.addEventListener("pointercancel", startAutoplay);
@@ -497,7 +818,7 @@ const setupLoopingCarousel = ({
     });
 };
 
-setupLoopingCarousel({
+setupGalleryCarousel({
     carousel: document.querySelector("[data-gallery-carousel]"),
     viewportSelector: "[data-carousel-viewport]",
     trackSelector: ".gallery-track",
@@ -506,11 +827,11 @@ setupLoopingCarousel({
     nextSelector: "[data-carousel-next]",
     currentSelector: "[data-carousel-current]",
     progressSelector: "[data-carousel-progress]",
-    autoplayDelay: 3500,
+    autoplayDelay: 4600,
     activeClass: "is-active",
 });
 
-setupLoopingCarousel({
+setupGalleryCarousel({
     carousel: document.querySelector("[data-reviews-carousel]"),
     viewportSelector: "[data-reviews-viewport]",
     trackSelector: ".reviews-grid",
@@ -519,5 +840,5 @@ setupLoopingCarousel({
     nextSelector: "[data-reviews-next]",
     currentSelector: "[data-reviews-current]",
     progressSelector: "[data-reviews-progress]",
-    autoplayDelay: 3500,
+    autoplayDelay: 4600,
 });

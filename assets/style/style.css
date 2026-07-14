@@ -9,8 +9,20 @@
     --dark-text: #2D2D2D;      /* Testo principale per massima leggibilità */
     --light-text: #6E6E6E;     /* Testi secondari e descrizioni */
     --white: #FFFFFF;
-    /* Quando avrai la foto, caricala in assets/img e sostituisci qui il nome del file. */
-    --hero-background-image: url('../img/Cabina-corpo.jpg');
+    --hero-background-image: url('../img/optimized/cabina-rituale-1200.jpg');
+    --hero-background-position: center 50%;
+    --img-trattamento-mani: url('../img/optimized/mani-dettaglio-1200.jpg');
+    --img-trattamento-viso-corpo: url('../img/optimized/prodotti-1800.jpg');
+    --img-trattamento-massaggi: url('../img/optimized/cabina-rituale-1200.jpg');
+    --img-trattamento-sguardo: url('../img/optimized/sguardo-1200.jpg');
+    --img-trattamento-epilazione: url('../img/optimized/cabina-corpo-wide-1800.jpg');
+    --img-gallery-ingresso: url('../img/optimized/ingresso-1800.jpg');
+    --img-gallery-cabina-corpo: url('../img/optimized/cabina-corpo-wide-1800.jpg');
+    --img-gallery-cabina-mani: url('../img/optimized/cabina-mani-1800.jpg');
+    --img-gallery-prodotti: url('../img/optimized/prodotti-1800.jpg');
+    --img-products-hero: url('../img/optimized/prodotti-1800.jpg');
+    --img-products-intro: url('../img/optimized/cabina-mani-1800.jpg');
+    --img-map-consent: url('../img/optimized/ingresso-1800.jpg');
     --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -131,19 +143,36 @@ h1, h2, h3 {
    3. BACKGROUND IMAGES MAPPING (Sostituzione stili inline)
    ========================================================================== */
 /* Trattamenti */
-.trattamento-1 { --image-position: center 42%; background-image: url('../img/20241011_130550.jpg'); }
-.trattamento-2 { --image-position: center 45%; background-image: url('../img/20260620_184953.jpg'); }
-.trattamento-3 { --image-position: center 48%; background-image: url('../img/Cabina-corpo.jpg'); }
-.trattamento-4 { --image-position: center 48%; background-image: url('../img/InCollage_20260509_194351386.jpg'); }
-.trattamento-5 { --image-position: center 48%; background-image: url('../img/InCollage_20250507_222805768.jpg'); }
+.trattamento-1 { --image-position: center 42%; background-image: var(--img-trattamento-mani); }
+.trattamento-2 { --image-position: center 45%; background-image: var(--img-trattamento-viso-corpo); }
+.trattamento-3 { --image-position: center 58%; background-image: var(--img-trattamento-massaggi); }
+.trattamento-4 { --image-position: center 50%; background-image: var(--img-trattamento-sguardo); }
+.trattamento-5 { --image-position: 72% 52%; background-image: var(--img-trattamento-epilazione); }
 
 /* Galleria */
-.gallery-photo-ingresso { --image-position: center 50%; background-image: url('../img/Ingresso.jpg'); }
-.gallery-photo-logo { --image-position: center 38%; background-image: url('../img/Logo-parete.jpg'); }
-.gallery-photo-cabina-corpo { --image-position: center 48%; background-image: url('../img/Cabina-corpo.jpg'); }
-.gallery-photo-cabina-mani { --image-position: center 48%; background-image: url('../img/Cabina-mani-1.jpg'); }
-.gallery-photo-marzia { --image-position: center 45%; background-image: url('../img/20260620_184953.jpg'); }
-.gallery-photo-specchio { --image-position: center 50%; background-image: url('../img/specchio.jpg'); }
+.gallery-photo-ingresso { --image-position: center 50%; background-image: var(--img-gallery-ingresso); }
+.gallery-photo-cabina-corpo { --image-position: center 52%; background-image: var(--img-gallery-cabina-corpo); }
+.gallery-photo-cabina-mani { --image-position: center 52%; background-image: var(--img-gallery-cabina-mani); }
+.gallery-photo-marzia { --image-position: center 45%; background-image: var(--img-gallery-prodotti); }
+
+@media (max-width: 768px) {
+    :root {
+        --hero-background-image: url('../img/optimized/cabina-rituale-900.jpg');
+        --hero-background-position: center 54%;
+        --img-trattamento-mani: url('../img/optimized/mani-dettaglio-900.jpg');
+        --img-trattamento-viso-corpo: url('../img/optimized/prodotti-960.jpg');
+        --img-trattamento-massaggi: url('../img/optimized/cabina-rituale-900.jpg');
+        --img-trattamento-sguardo: url('../img/optimized/sguardo-900.jpg');
+        --img-trattamento-epilazione: url('../img/optimized/cabina-corpo-wide-960.jpg');
+        --img-gallery-ingresso: url('../img/optimized/ingresso-960.jpg');
+        --img-gallery-cabina-corpo: url('../img/optimized/cabina-corpo-wide-960.jpg');
+        --img-gallery-cabina-mani: url('../img/optimized/cabina-mani-960.jpg');
+        --img-gallery-prodotti: url('../img/optimized/prodotti-960.jpg');
+        --img-products-hero: url('../img/optimized/prodotti-960.jpg');
+        --img-products-intro: url('../img/optimized/cabina-mani-960.jpg');
+        --img-map-consent: url('../img/optimized/ingresso-960.jpg');
+    }
+}
 
 /* ==========================================================================
    4. HEADER & NAVIGATION
@@ -320,7 +349,7 @@ h1, h2, h3 {
     overflow: hidden;
     background:
         linear-gradient(90deg, rgba(238, 227, 212, 0.76) 0%, rgba(244, 236, 225, 0.62) 50%, rgba(230, 216, 198, 0.74) 100%),
-        var(--hero-background-image) center 46% / cover no-repeat;
+        var(--hero-background-image) var(--hero-background-position) / cover no-repeat;
     padding: 125px 24px 90px;
 }
 
@@ -673,16 +702,20 @@ h1, h2, h3 {
 }
 
 .gallery-viewport {
+    cursor: grab;
     overflow-y: hidden;
-    overflow-x: auto;
+    overflow-x: hidden;
     overscroll-behavior-inline: contain;
-    scroll-behavior: smooth;
-    scroll-snap-type: inline mandatory;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
     scrollbar-width: none;
     padding: 8px 0 14px;
     outline: none;
-    touch-action: pan-x pan-y;
-    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+}
+
+.gallery-carousel.is-dragging .gallery-viewport {
+    cursor: grabbing;
 }
 
 .gallery-viewport:focus-visible {
@@ -694,14 +727,15 @@ h1, h2, h3 {
 }
 
 .gallery-track {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 82%;
-    gap: 22px;
+    display: flex;
+    gap: 0;
+    will-change: transform;
 }
 
 .gallery-slide {
     position: relative;
+    flex: 0 0 100%;
+    min-width: 0;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: #e6dbcd;
@@ -710,7 +744,6 @@ h1, h2, h3 {
     opacity: 0.58;
     transform: scale(0.965);
     transform-origin: left center;
-    scroll-snap-align: start;
     transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.45s ease;
 }
 
@@ -800,7 +833,7 @@ h1, h2, h3 {
 }
 
 .gallery-carousel.is-timing .gallery-timer > span {
-    animation: gallery-timer-progress 3.5s linear forwards;
+    animation: gallery-timer-progress var(--carousel-timer-duration, 3.5s) linear forwards;
 }
 
 .gallery-carousel.is-paused .gallery-timer > span {
@@ -857,7 +890,8 @@ h1, h2, h3 {
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
-    object-fit: cover;
+    object-fit: contain;
+    background: #f4eadf;
     flex: 0 0 auto;
     transition: transform 0.8s ease;
 }
@@ -993,14 +1027,19 @@ h1, h2, h3 {
 }
 
 .reviews-viewport {
-    overflow-x: auto;
+    cursor: grab;
+    overflow-x: hidden;
     overflow-y: hidden;
-    scroll-behavior: smooth;
-    scroll-snap-type: inline mandatory;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
     scrollbar-width: none;
-    touch-action: pan-x pan-y;
-    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
     outline: none;
+}
+
+.reviews-carousel.is-dragging .reviews-viewport {
+    cursor: grabbing;
 }
 
 .reviews-viewport::-webkit-scrollbar {
@@ -1012,21 +1051,21 @@ h1, h2, h3 {
 }
 
 .reviews-grid {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: calc((100% - 22px) / 2);
+    display: flex;
     gap: 22px;
     padding: 8px 0 14px;
+    will-change: transform;
 }
 
 .review-card {
     position: relative;
+    flex: 0 0 calc((100% - 22px) / 2);
+    min-width: 0;
     min-height: 300px;
     padding: 30px 30px 68px;
     background: rgba(255, 255, 255, 0.64);
     border: 1px solid rgba(124, 102, 78, 0.12);
     box-shadow: 0 16px 42px rgba(92, 73, 52, 0.055);
-    scroll-snap-align: start;
     transition: var(--transition-smooth);
 }
 
@@ -1297,7 +1336,7 @@ h1, h2, h3 {
     padding: 160px 50px 88px;
     background:
         linear-gradient(90deg, rgba(41, 36, 31, 0.62) 0%, rgba(79, 64, 48, 0.34) 48%, rgba(248, 240, 228, 0.62) 100%),
-        url('../img/20260620_184953.jpg') center 48% / cover no-repeat;
+        var(--img-products-hero) center 48% / cover no-repeat;
 }
 
 .products-hero::after {
@@ -1394,11 +1433,11 @@ h1, h2, h3 {
 }
 
 .products-intro-image {
-    --products-intro-logo-position: center 34%;
+    --products-intro-photo-position: 30% 50%;
     min-height: 560px;
     background:
         linear-gradient(to top, rgba(37, 31, 25, 0.42), rgba(37, 31, 25, 0.06)),
-        url('../img/Logo-parete.jpg') var(--products-intro-logo-position) / cover no-repeat;
+        var(--img-products-intro) var(--products-intro-photo-position) / cover no-repeat;
     border: 1px solid rgba(126, 105, 81, 0.13);
     box-shadow: 0 24px 70px rgba(86, 66, 45, 0.1);
 }
@@ -1736,7 +1775,7 @@ html[lang="en"] .marzia-line-card::before {
 }
 
 .reviews-carousel.is-timing .reviews-timer > span {
-    animation: reviews-timer-progress 3.5s linear forwards;
+    animation: reviews-timer-progress var(--carousel-timer-duration, 3.5s) linear forwards;
 }
 
 .reviews-carousel.is-paused .reviews-timer > span {
@@ -1784,7 +1823,7 @@ html[lang="en"] .marzia-line-card::before {
     padding: 34px 22px;
     background:
         linear-gradient(135deg, rgba(238, 227, 212, 0.92), rgba(250, 247, 242, 0.96)),
-        url('../img/Ingresso.jpg') center / cover no-repeat;
+        var(--img-map-consent) center / cover no-repeat;
     border: 1px solid rgba(140, 126, 109, 0.13);
     border-radius: 4px;
     box-shadow: 0 10px 30px rgba(140, 126, 109, 0.05);
@@ -2387,15 +2426,12 @@ html[lang="en"] .marzia-line-card::before {
         gap: 30px;
     }
 
-    .gallery-track {
-        grid-auto-columns: 88%;
-    }
-
     .gallery-carousel {
         padding: 0 54px;
     }
 
     .gallery-slide {
+        flex-basis: 88%;
         aspect-ratio: 16 / 10;
     }
 
@@ -2412,11 +2448,8 @@ html[lang="en"] .marzia-line-card::before {
         padding: 0 54px;
     }
 
-    .reviews-grid {
-        grid-auto-columns: 72%;
-    }
-
     .review-card {
+        flex-basis: 72%;
         min-height: 270px;
     }
 
@@ -2518,7 +2551,8 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .products-intro-image {
-        min-height: clamp(460px, 112vw, 620px);
+        min-height: 0;
+        aspect-ratio: 6 / 5;
     }
 
     .marzia-products-intro {
@@ -2573,12 +2607,12 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .gallery-track {
-        grid-auto-columns: 100%;
-        gap: 16px;
+        gap: 0;
     }
 
     .gallery-slide {
-        aspect-ratio: 4 / 5;
+        flex-basis: 100%;
+        aspect-ratio: 6 / 5;
         border-radius: 14px;
         opacity: 1;
         transform: none;
@@ -2661,11 +2695,6 @@ html[lang="en"] .marzia-line-card::before {
         grid-area: viewport;
     }
 
-    .reviews-grid {
-        grid-auto-columns: 100%;
-        gap: 16px;
-    }
-
     .reviews-arrow {
         position: static;
         width: 44px;
@@ -2689,6 +2718,14 @@ html[lang="en"] .marzia-line-card::before {
         grid-area: meta;
         gap: 10px;
         padding: 0;
+    }
+
+    .reviews-grid {
+        gap: 0;
+    }
+
+    .review-card {
+        flex-basis: 100%;
     }
 
     .reviews-footer {
@@ -2717,7 +2754,8 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .ritual-image-box {
-        height: 300px; /* Altezza del contenitore su Mobile */
+        height: auto;
+        aspect-ratio: 6 / 5;
     }
     
     .floating-actions {

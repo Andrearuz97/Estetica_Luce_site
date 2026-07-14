@@ -18,6 +18,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.webmanifest">
+    <link rel="preload" as="image" href="assets/img/optimized/cabina-rituale-1200.jpg"
+        media="(min-width: 769px)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/img/optimized/cabina-rituale-900.jpg"
+        media="(max-width: 768px)" fetchpriority="high">
     <link rel="canonical" href="https://esteticaluce.it/">
     <link rel="alternate" hreflang="it" href="https://esteticaluce.it/">
     <link rel="alternate" hreflang="en" href="https://esteticaluce.it/en/">
@@ -136,7 +140,8 @@
 
     <header class="main-header">
         <a href="#home" class="logo-link" title="Torna alla Home">
-            <img src="assets/img/logo-estetica-luce.png" alt="Estetica Luce" class="navbar-logo">
+            <img src="assets/img/logo-estetica-luce.png" alt="Estetica Luce" class="navbar-logo" width="666"
+                height="612" decoding="async">
         </a>
         <nav class="nav-links">
             <a href="#home">Home</a>
@@ -168,7 +173,8 @@
         <div class="hero-content">
             <!--<span class="hero-eyebrow">Centro estetico &middot; Olbia</span>-->
             <div class="logo-container-fluid">
-                <img src="assets/img/logo-estetica-luce.png" alt="Logo Estetica Luce" class="hero-brand-logo">
+                <img src="assets/img/logo-estetica-luce.png" alt="Logo Estetica Luce" class="hero-brand-logo"
+                    width="666" height="612" decoding="async">
             </div>
 
             <h1 class="brand-main-title">Estetica Luce</h1>
@@ -310,7 +316,7 @@
     <section class="gallery-section">
         <div class="section-header">
             <h2>Il Tuo Rifugio Privato</h2>
-            <p>Trattamenti, dettagli e scorci del centro: un ambiente raccolto dove ogni gesto invita a rallentare.</p>
+            <p>Spazi, cabine e prodotti del centro: un ambiente raccolto dove ogni gesto invita a rallentare.</p>
         </div>
 
         <div class="gallery-carousel" data-gallery-carousel>
@@ -320,29 +326,21 @@
 
             <div class="gallery-viewport" data-carousel-viewport tabindex="0" aria-label="Carosello spazi e dettagli del centro">
                 <div class="gallery-track">
-                    <article class="gallery-slide is-active" aria-label="1 di 6">
+                    <article class="gallery-slide is-active" aria-label="1 di 4">
                         <div class="gallery-item gallery-photo-ingresso"></div>
                         <div class="gallery-caption"><span>Il centro</span><h3>Ingresso</h3></div>
                     </article>
-                    <article class="gallery-slide" aria-label="2 di 6">
-                        <div class="gallery-item gallery-photo-logo"></div>
-                        <div class="gallery-caption"><span>Atmosfera</span><h3>Parete Logo</h3></div>
-                    </article>
-                    <article class="gallery-slide" aria-label="3 di 6">
+                    <article class="gallery-slide" aria-label="2 di 4">
                         <div class="gallery-item gallery-photo-cabina-corpo"></div>
-                        <div class="gallery-caption"><span>Cabina corpo</span><h3>Relax e Benessere</h3></div>
+                        <div class="gallery-caption"><span>Cabina corpo</span><h3>Trattamenti e Benessere</h3></div>
                     </article>
-                    <article class="gallery-slide" aria-label="4 di 6">
+                    <article class="gallery-slide" aria-label="3 di 4">
                         <div class="gallery-item gallery-photo-cabina-mani"></div>
                         <div class="gallery-caption"><span>Cabina mani</span><h3>Mani & Piedi</h3></div>
                     </article>
-                    <article class="gallery-slide" aria-label="5 di 6">
+                    <article class="gallery-slide" aria-label="4 di 4">
                         <div class="gallery-item gallery-photo-marzia"></div>
                         <div class="gallery-caption"><span>Marzia Clinic</span><h3>Prodotti in Istituto</h3></div>
-                    </article>
-                    <article class="gallery-slide" aria-label="6 di 6">
-                        <div class="gallery-item gallery-photo-specchio"></div>
-                        <div class="gallery-caption"><span>Dettagli</span><h3>Specchio e Luce</h3></div>
                     </article>
                 </div>
             </div>
@@ -352,9 +350,9 @@
             </button>
 
             <div class="gallery-meta">
-                <p>Esplora gli spazi, i dettagli e i prodotti che accompagnano i trattamenti</p>
+                <p>Esplora gli spazi e i prodotti che accompagnano i trattamenti</p>
                 <span class="gallery-timer" aria-hidden="true"><span data-carousel-progress></span></span>
-                <span class="gallery-counter"><strong data-carousel-current>01</strong> / 06</span>
+                <span class="gallery-counter"><strong data-carousel-current>01</strong> / 04</span>
             </div>
         </div>
     </section>
