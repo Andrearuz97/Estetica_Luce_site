@@ -338,7 +338,7 @@ const setupGalleryCarousel = ({
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const cloneCount = originalItems.length > 1 ? Math.min(2, originalItems.length) : 0;
-    const transitionMs = prefersReducedMotion ? 0 : 1100;
+    const transitionMs = prefersReducedMotion ? 0 : 720;
     let trackIndex = cloneCount;
     let currentRealIndex = 0;
     let autoplayTimer;
@@ -348,6 +348,10 @@ const setupGalleryCarousel = ({
     let didDrag = false;
     let pointerStartX = 0;
     let pointerStartY = 0;
+    let pointerStartTime = 0;
+    let dragVelocity = 0;
+    let lastPointerX = 0;
+    let lastPointerTime = 0;
     let dragOffset = 0;
     let wheelDelta = 0;
     let wheelResetTimer;
@@ -535,9 +539,11 @@ const setupGalleryCarousel = ({
         isPointerDown = false;
         carousel.classList.remove("is-dragging");
 
-        const threshold = Math.min(140, Math.max(48, viewport.clientWidth * 0.14));
+        const threshold = Math.min(72, Math.max(32, viewport.clientWidth * 0.09));
+        const isQuickFlick = Math.abs(dragVelocity) > 0.32
+            && performance.now() - pointerStartTime < 500;
 
-        if (didDrag && Math.abs(dragOffset) >= threshold) {
+        if (didDrag && (Math.abs(dragOffset) >= threshold || isQuickFlick)) {
             move(dragOffset < 0 ? 1 : -1);
         } else if (didDrag) {
             isAnimating = true;
@@ -547,6 +553,7 @@ const setupGalleryCarousel = ({
 
         didDrag = false;
         dragOffset = 0;
+        dragVelocity = 0;
         startAutoplay();
     };
 
@@ -576,6 +583,10 @@ const setupGalleryCarousel = ({
         dragOffset = 0;
         pointerStartX = event.clientX;
         pointerStartY = event.clientY;
+        pointerStartTime = performance.now();
+        lastPointerX = event.clientX;
+        lastPointerTime = pointerStartTime;
+        dragVelocity = 0;
         viewport.setPointerCapture?.(event.pointerId);
     });
     viewport.addEventListener("pointermove", (event) => {
@@ -588,7 +599,12 @@ const setupGalleryCarousel = ({
 
         event.preventDefault();
         didDrag = true;
-        dragOffset = deltaX * 0.36;
+        const now = performance.now();
+        const elapsed = now - lastPointerTime;
+        if (elapsed > 0) dragVelocity = (event.clientX - lastPointerX) / elapsed;
+        lastPointerX = event.clientX;
+        lastPointerTime = now;
+        dragOffset = deltaX * 0.78;
         carousel.classList.add("is-dragging");
         setPosition(trackIndex, false, dragOffset);
     });
