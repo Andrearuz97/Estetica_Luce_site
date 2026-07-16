@@ -19,6 +19,7 @@
     --img-gallery-ingresso: url('../img/optimized/ingresso-1800.jpg');
     --img-gallery-cabina-corpo: url('../img/optimized/cabina-corpo-wide-1800.jpg');
     --img-gallery-cabina-mani: url('../img/optimized/cabina-mani-1800.jpg');
+    --img-gallery-cabina-rituale: url('../img/optimized/cabina-rituale-wide-1800.jpg');
     --img-gallery-prodotti: url('../img/optimized/prodotti-1800.jpg');
     --img-products-hero: url('../img/optimized/prodotti-1800.jpg');
     --img-products-intro: url('../img/optimized/cabina-mani-1800.jpg');
@@ -153,6 +154,7 @@ h1, h2, h3 {
 .gallery-photo-ingresso { --image-position: center 50%; background-image: var(--img-gallery-ingresso); }
 .gallery-photo-cabina-corpo { --image-position: center 52%; background-image: var(--img-gallery-cabina-corpo); }
 .gallery-photo-cabina-mani { --image-position: center 52%; background-image: var(--img-gallery-cabina-mani); }
+.gallery-photo-cabina-rituale { --image-position: center 50%; background-image: var(--img-gallery-cabina-rituale); }
 .gallery-photo-marzia { --image-position: center 45%; background-image: var(--img-gallery-prodotti); }
 
 @media (max-width: 768px) {
@@ -167,6 +169,7 @@ h1, h2, h3 {
         --img-gallery-ingresso: url('../img/optimized/ingresso-960.jpg');
         --img-gallery-cabina-corpo: url('../img/optimized/cabina-corpo-wide-960.jpg');
         --img-gallery-cabina-mani: url('../img/optimized/cabina-mani-960.jpg');
+        --img-gallery-cabina-rituale: url('../img/optimized/cabina-rituale-wide-960.jpg');
         --img-gallery-prodotti: url('../img/optimized/prodotti-960.jpg');
         --img-products-hero: url('../img/optimized/prodotti-960.jpg');
         --img-products-intro: url('../img/optimized/cabina-mani-960.jpg');
