@@ -87,6 +87,17 @@ const setupActiveNavLinks = () => {
 
 setupActiveNavLinks();
 
+const setupHeaderState = () => {
+    const header = document.querySelector(".main-header");
+    if (!header) return;
+
+    const updateHeaderState = () => header.classList.toggle("is-scrolled", window.scrollY > 24);
+    updateHeaderState();
+    window.addEventListener("scroll", updateHeaderState, { passive: true });
+};
+
+setupHeaderState();
+
 const setupScrollReveals = () => {
     const revealSelectors = [
         ".manifesto-section .container-small",

@@ -28,6 +28,17 @@ foreach ($htmlFile in $htmlFiles) {
             Assert-True (Test-Path -LiteralPath $resolved) "Riferimento mancante in $($htmlFile.FullName): $($match.Groups[1].Value)"
         }
     }
+
+    $blankLinks = [regex]::Matches($html, '<a\b[^>]*target="_blank"[^>]*>', 'IgnoreCase')
+    foreach ($blankLink in $blankLinks) {
+        Assert-True ($blankLink.Value -match 'rel="[^"]*noopener[^"]*"') "Link target=_blank senza noopener in $($htmlFile.FullName): $($blankLink.Value)"
+    }
+
+    $iframes = [regex]::Matches($html, '<iframe\b[^>]*>', 'IgnoreCase')
+    foreach ($iframe in $iframes) {
+        Assert-True ($iframe.Value -match 'title="[^"]+"') "Iframe senza nome accessibile in $($htmlFile.FullName)."
+        Assert-True ($iframe.Value -match 'referrerpolicy="strict-origin-when-cross-origin"') "Iframe con referrerpolicy obsoleta in $($htmlFile.FullName)."
+    }
 }
 
 $italianHome = Get-Content (Join-Path $projectRoot 'index.html') -Raw
@@ -36,6 +47,8 @@ $italianCards = ([regex]::Matches($italianHome, 'class="before-after-card"')).Co
 $englishCards = ([regex]::Matches($englishHome, 'class="before-after-card"')).Count
 Assert-True ($italianCards -eq 6) "La home italiana contiene $italianCards card prima/dopo invece di 6."
 Assert-True ($englishCards -eq 6) "La home inglese contiene $englishCards card before/after invece di 6."
+Assert-True (-not ([regex]::IsMatch(($htmlFiles | ForEach-Object { Get-Content $_.FullName -Raw }) -join "`n", 'footer-nav-block|class="footer-nav"'))) 'Il footer contiene ancora una navigazione ridondante.'
+Assert-True (([regex]::Matches(($htmlFiles | ForEach-Object { Get-Content $_.FullName -Raw }) -join "`n", 'class="navbar-brand-text"')).Count -eq $htmlFiles.Count) 'Il lockup completo del brand deve apparire in ogni navbar.'
 
 Add-Type -AssemblyName System.Drawing
 $cardImages = [regex]::Matches($italianHome, '<img src="(assets/img/before-after/[^"]+)"[^>]*width="1200"[^>]*height="1200"')
