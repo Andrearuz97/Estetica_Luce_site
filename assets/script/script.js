@@ -539,8 +539,8 @@ const setupGalleryCarousel = ({
         isPointerDown = false;
         carousel.classList.remove("is-dragging");
 
-        const threshold = Math.min(72, Math.max(32, viewport.clientWidth * 0.09));
-        const isQuickFlick = Math.abs(dragVelocity) > 0.32
+        const threshold = Math.min(64, Math.max(24, viewport.clientWidth * 0.075));
+        const isQuickFlick = Math.abs(dragVelocity) > 0.26
             && performance.now() - pointerStartTime < 500;
 
         if (didDrag && (Math.abs(dragOffset) >= threshold || isQuickFlick)) {
@@ -610,6 +610,7 @@ const setupGalleryCarousel = ({
     });
     viewport.addEventListener("pointerup", endDrag);
     viewport.addEventListener("pointercancel", endDrag);
+    viewport.addEventListener("lostpointercapture", endDrag);
     carousel.addEventListener("mouseenter", pauseAutoplay);
     carousel.addEventListener("mouseleave", startAutoplay);
     carousel.addEventListener("focusin", pauseAutoplay);
@@ -620,9 +621,12 @@ const setupGalleryCarousel = ({
         if (document.hidden) pauseAutoplay();
         else startAutoplay();
     });
-    window.addEventListener("resize", () => {
-        setPosition(trackIndex, false);
-    });
+    if ("ResizeObserver" in window) {
+        const resizeObserver = new ResizeObserver(() => setPosition(trackIndex, false));
+        resizeObserver.observe(viewport);
+    } else {
+        window.addEventListener("resize", () => setPosition(trackIndex, false));
+    }
 
     setPosition(trackIndex, false);
     updateState();

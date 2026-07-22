@@ -249,18 +249,19 @@ h1, h2, h3 {
     align-items: center;
     gap: 4px;
     padding: 4px;
-    background: rgba(255, 252, 247, 0.64);
-    border: 1px solid rgba(111, 92, 70, 0.14);
+    background: rgba(255, 252, 247, 0.78);
+    border: 1px solid rgba(111, 92, 70, 0.18);
     border-radius: 999px;
-    box-shadow: 0 8px 24px rgba(80, 65, 47, 0.05);
+    box-shadow: 0 9px 26px rgba(80, 65, 47, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(12px);
 }
 
 .language-option {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    min-height: 32px;
-    padding: 0 11px;
+    min-height: 34px;
+    padding: 0 12px;
     color: #6a5d50;
     border-radius: 999px;
     font-size: 0.68rem;
@@ -276,41 +277,34 @@ h1, h2, h3 {
 .language-option[aria-current="page"] {
     color: #fffaf3;
     background: #746351;
+    box-shadow: 0 5px 14px rgba(81, 65, 48, 0.18);
+    transform: translateY(-1px);
+}
+
+.language-option:focus-visible {
+    outline: 2px solid rgba(143, 120, 95, 0.58);
+    outline-offset: 2px;
 }
 
 .language-flag {
-    position: relative;
     display: inline-block;
-    width: 20px;
-    height: 14px;
-    overflow: hidden;
-    border-radius: 3px;
-    box-shadow: inset 0 0 0 1px rgba(46, 38, 30, 0.18);
+    width: 22px;
+    aspect-ratio: 3 / 2;
+    border: 1px solid rgba(46, 38, 30, 0.15);
+    border-radius: 4px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 2px 5px rgba(46, 38, 30, 0.15);
     flex: 0 0 auto;
 }
 
 .flag-it {
-    background: linear-gradient(90deg, #009246 0 33.33%, #ffffff 33.33% 66.66%, #ce2b37 66.66% 100%);
+    background-image: url('../img/flags/it.svg');
 }
 
 .flag-en {
-    background: #012169;
-}
-
-.flag-en::before,
-.flag-en::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(90deg, transparent 0 42%, #ffffff 42% 58%, transparent 58% 100%),
-        linear-gradient(0deg, transparent 0 36%, #ffffff 36% 64%, transparent 64% 100%);
-}
-
-.flag-en::after {
-    background:
-        linear-gradient(90deg, transparent 0 46%, #c8102e 46% 54%, transparent 54% 100%),
-        linear-gradient(0deg, transparent 0 42%, #c8102e 42% 58%, transparent 58% 100%);
+    background-image: url('../img/flags/gb.svg');
 }
 
 /* Hamburger Menu Core */
@@ -715,6 +709,9 @@ h1, h2, h3 {
     padding: 8px 0 14px;
     outline: none;
     touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .gallery-carousel.is-dragging .gallery-viewport {
@@ -1038,6 +1035,9 @@ h1, h2, h3 {
     scroll-snap-type: none;
     scrollbar-width: none;
     touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
     outline: none;
 }
 
@@ -2429,7 +2429,7 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .gallery-slide {
-        flex-basis: 88%;
+        flex-basis: 86%;
         aspect-ratio: 16 / 10;
     }
 
@@ -2447,7 +2447,7 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .review-card {
-        flex-basis: 72%;
+        flex-basis: 76%;
         min-height: 270px;
     }
 
@@ -2492,8 +2492,7 @@ html[lang="en"] .marzia-line-card::before {
     }
 
     .language-flag {
-        width: 18px;
-        height: 12px;
+        width: 19px;
     }
 
     .logo-link {
@@ -2650,6 +2649,12 @@ html[lang="en"] .marzia-line-card::before {
         font-size: 2rem;
     }
 
+    .gallery-caption {
+        left: 22px;
+        right: 22px;
+        bottom: 22px;
+    }
+
     .before-after-section .section-header {
         text-align: left;
     }
@@ -2724,6 +2729,7 @@ html[lang="en"] .marzia-line-card::before {
 
     .review-card {
         flex-basis: 100%;
+        min-height: 290px;
     }
 
     .reviews-footer {
