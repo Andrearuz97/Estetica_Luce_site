@@ -41,9 +41,9 @@
     --img-trattamento-sguardo: url('../img/optimized/sguardo-servizio-1200.jpg');
     --img-trattamento-epilazione: url('../img/optimized/epilazione-dettaglio-1200.jpg');
     --img-gallery-ingresso: url('../img/optimized/ingresso-1800.jpg');
-    --img-gallery-cabina-corpo: url('../img/optimized/specchio-1800.jpg');
+    --img-gallery-cabina-corpo: url('../img/optimized/cabina-corpo-wide-1800.jpg');
     --img-gallery-cabina-mani: url('../img/optimized/cabina-mani-1800.jpg');
-    --img-gallery-cabina-rituale: url('../img/optimized/logo-parete-landscape-1600.jpg');
+    --img-gallery-cabina-rituale: url('../img/optimized/cabina-rituale-wide-1800.jpg');
     --img-gallery-prodotti: url('../img/optimized/prodotti-1800.jpg');
     --img-products-hero: url('../img/optimized/prodotti-1800.jpg');
     --img-products-intro: url('../img/optimized/cabina-mani-1800.jpg');
@@ -221,9 +221,9 @@ h1, h2, h3 {
         --img-trattamento-sguardo: url('../img/optimized/sguardo-servizio-900.jpg');
         --img-trattamento-epilazione: url('../img/optimized/epilazione-dettaglio-900.jpg');
         --img-gallery-ingresso: url('../img/optimized/ingresso-960.jpg');
-        --img-gallery-cabina-corpo: url('../img/optimized/specchio-960.jpg');
+        --img-gallery-cabina-corpo: url('../img/optimized/cabina-corpo-wide-960.jpg');
         --img-gallery-cabina-mani: url('../img/optimized/cabina-mani-960.jpg');
-        --img-gallery-cabina-rituale: url('../img/optimized/logo-parete-landscape-960.jpg');
+        --img-gallery-cabina-rituale: url('../img/optimized/cabina-rituale-wide-960.jpg');
         --img-gallery-prodotti: url('../img/optimized/prodotti-960.jpg');
         --img-products-hero: url('../img/optimized/prodotti-960.jpg');
         --img-products-intro: url('../img/optimized/cabina-mani-960.jpg');
