@@ -120,6 +120,13 @@ const setupScrollReveals = () => {
         ".marzia-line-grid > .marzia-line-card",
         ".marzia-products-note",
         ".products-cta-band > *",
+        ".treatment-intro-copy",
+        ".treatment-needs > span",
+        ".treatment-catalog-heading",
+        ".treatment-filters",
+        ".treatment-card-grid > .treatment-card",
+        ".treatment-catalog-note",
+        ".treatment-products-link > *",
         ".contact-container",
         ".legal-page-header",
         ".legal-content",
@@ -166,6 +173,42 @@ const setupScrollReveals = () => {
 };
 
 setupScrollReveals();
+
+const setupTreatmentFilters = () => {
+    const buttons = [...document.querySelectorAll("[data-treatment-filter]")];
+    const cards = [...document.querySelectorAll("[data-treatment-card]")];
+    const status = document.querySelector("[data-treatment-status]");
+
+    if (!buttons.length || !cards.length) return;
+
+    const statusLabels = {
+        it: (count) => `${count} ${count === 1 ? "trattamento" : "trattamenti"} da scoprire`,
+        en: (count) => `${count} ${count === 1 ? "treatment" : "treatments"} to discover`,
+    };
+
+    const selectFilter = (selectedButton) => {
+        const filter = selectedButton.dataset.treatmentFilter;
+        let visibleCount = 0;
+
+        buttons.forEach((button) => {
+            const isSelected = button === selectedButton;
+            button.classList.toggle("is-active", isSelected);
+            button.setAttribute("aria-pressed", String(isSelected));
+        });
+
+        cards.forEach((card) => {
+            const isVisible = filter === "all" || card.dataset.category === filter;
+            card.hidden = !isVisible;
+            if (isVisible) visibleCount += 1;
+        });
+
+        if (status) status.textContent = statusLabels[pageLanguage](visibleCount);
+    };
+
+    buttons.forEach((button) => button.addEventListener("click", () => selectFilter(button)));
+};
+
+setupTreatmentFilters();
 
 const updateScrollTopButton = () => {
     scrollTopBtn.classList.toggle("show", window.scrollY > 300);

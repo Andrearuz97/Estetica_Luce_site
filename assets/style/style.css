@@ -617,7 +617,7 @@ h1, h2, h3 {
     line-height: 1.85;
 }
 
-/* --- Experiences / Rituals --- */
+/* --- Treatment previews --- */
 .experiences-section {
     counter-reset: ritual-item;
     padding: 108px 50px 124px;
@@ -1512,6 +1512,386 @@ h1, h2, h3 {
     padding-bottom: 2px;
 }
 
+.treatment-preview-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    margin-top: -24px;
+    padding: 38px;
+    background: #302b26;
+    color: var(--white);
+    text-align: center;
+}
+
+.treatment-preview-cta p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+}
+
+/* --- Treatments Page --- */
+.treatments-hero {
+    min-height: 92svh;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    overflow: hidden;
+    padding: 170px 50px 92px;
+    background:
+        linear-gradient(90deg, rgba(40, 31, 25, 0.77) 0%, rgba(67, 52, 40, 0.45) 48%, rgba(89, 67, 49, 0.15) 100%),
+        url('../img/optimized/cabina-rituale-wide-1800.jpg') center 54% / cover no-repeat;
+}
+
+.treatments-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(26, 22, 19, 0.08), transparent 42%, rgba(26, 22, 19, 0.2));
+    pointer-events: none;
+}
+
+.treatments-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 840px;
+    color: var(--white);
+}
+
+.treatments-hero h1 {
+    max-width: 820px;
+    margin-bottom: 24px;
+    color: var(--white);
+    font-size: clamp(3.65rem, 8vw, 7rem);
+    line-height: 0.9;
+}
+
+.treatments-hero p {
+    max-width: 690px;
+    margin-bottom: 38px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    font-weight: 300;
+    line-height: 1.75;
+}
+
+.treatment-intro-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 0.82fr);
+    gap: clamp(60px, 8vw, 110px);
+    align-items: center;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 120px 50px;
+}
+
+.treatment-intro-copy h2 {
+    margin-bottom: 26px;
+    color: #39332d;
+    font-size: clamp(2.7rem, 5vw, 4.9rem);
+    line-height: 0.98;
+}
+
+.treatment-intro-copy p {
+    max-width: 650px;
+    color: var(--light-text);
+    font-weight: 300;
+    line-height: 1.8;
+}
+
+.treatment-needs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.treatment-needs span {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 72px;
+    padding: 16px 18px;
+    color: #5e5145;
+    background: linear-gradient(145deg, #fbf7f0, #f1e7d9);
+    border: 1px solid rgba(126, 105, 81, 0.14);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+}
+
+.treatment-needs i {
+    width: 28px;
+    color: var(--accent-gold);
+    font-size: 1.12rem;
+    text-align: center;
+}
+
+.treatment-catalog-section {
+    padding: 118px 50px 130px;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(194, 165, 127, 0.12), transparent 28%),
+        linear-gradient(180deg, #f8f2e9 0%, #fffdfa 100%);
+}
+
+.treatment-catalog-heading {
+    max-width: 880px;
+    margin: 0 auto 44px;
+    text-align: center;
+}
+
+.treatment-catalog-heading h2 {
+    margin-bottom: 20px;
+    color: #39332d;
+    font-size: clamp(2.7rem, 5vw, 4.7rem);
+    line-height: 1;
+}
+
+.treatment-catalog-heading p {
+    max-width: 740px;
+    margin: 0 auto;
+    color: var(--light-text);
+    font-weight: 300;
+    line-height: 1.75;
+}
+
+.treatment-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+.treatment-filter {
+    min-height: 46px;
+    padding: 0 22px;
+    color: #65594d;
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(126, 105, 81, 0.22);
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.treatment-filter:hover,
+.treatment-filter:focus-visible {
+    color: #302b26;
+    border-color: rgba(126, 105, 81, 0.55);
+    transform: translateY(-2px);
+}
+
+.treatment-filter.is-active {
+    color: #fff;
+    background: #6f604f;
+    border-color: #6f604f;
+    box-shadow: 0 10px 26px rgba(74, 57, 42, 0.16);
+}
+
+.treatment-filter-status {
+    margin: 18px auto 38px;
+    color: #8b7865;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+.treatment-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.treatment-card {
+    --treatment-accent: #b4936e;
+    --treatment-accent-dark: #8a7056;
+    --treatment-soft: #f8f2ea;
+    position: relative;
+    display: flex;
+    min-height: 390px;
+    flex-direction: column;
+    padding: 29px 27px 25px;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, var(--treatment-accent), var(--treatment-accent-dark)) top / 100% 5px no-repeat,
+        rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(126, 105, 81, 0.14);
+    box-shadow: 0 18px 42px rgba(83, 65, 45, 0.065);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, opacity 0.2s ease;
+}
+
+.treatment-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 64px rgba(83, 65, 45, 0.12);
+}
+
+.treatment-card[hidden] {
+    display: none !important;
+}
+
+.treatment-card-featured {
+    background:
+        linear-gradient(90deg, var(--treatment-accent), var(--treatment-accent-dark)) top / 100% 5px no-repeat,
+        linear-gradient(145deg, #fff, var(--treatment-soft));
+}
+
+.treatment-card-viso { --treatment-accent: #c29a91; --treatment-accent-dark: #96736c; --treatment-soft: #fbf2f0; }
+.treatment-card-corpo { --treatment-accent: #9dab77; --treatment-accent-dark: #78875a; --treatment-soft: #f3f6ec; }
+.treatment-card-presso { --treatment-accent: #789ca2; --treatment-accent-dark: #56777d; --treatment-soft: #edf4f5; }
+.treatment-card-massaggi { --treatment-accent: #b08b63; --treatment-accent-dark: #866849; --treatment-soft: #f8f1e9; }
+
+.treatment-card-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+    color: #7d6e60;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 1.35px;
+    text-transform: uppercase;
+}
+
+.treatment-card-meta span:last-child {
+    flex: 0 0 auto;
+}
+
+.treatment-card-result {
+    margin-bottom: 10px;
+    color: var(--treatment-accent-dark);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.45px;
+    text-transform: uppercase;
+}
+
+.treatment-card h3 {
+    margin-bottom: 16px;
+    color: #39332d;
+    font-size: clamp(1.75rem, 2.7vw, 2.35rem);
+    line-height: 0.98;
+}
+
+.treatment-card h3 small {
+    display: block;
+    margin-top: 7px;
+    color: #776a5e;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.treatment-card > p:not(.treatment-card-result) {
+    margin-bottom: 22px;
+    color: #6f655b;
+    font-size: 0.86rem;
+    font-weight: 300;
+    line-height: 1.68;
+}
+
+.treatment-card details {
+    margin-top: auto;
+    padding-top: 17px;
+    border-top: 1px solid rgba(126, 105, 81, 0.14);
+}
+
+.treatment-card summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: #554b42;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    list-style: none;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.treatment-card summary::-webkit-details-marker {
+    display: none;
+}
+
+.treatment-card summary::after {
+    content: '+';
+    color: var(--treatment-accent);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.treatment-card details[open] summary::after {
+    content: '−';
+}
+
+.treatment-card details p {
+    margin: 15px 0 0;
+    color: #786d62;
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.65;
+}
+
+.treatment-catalog-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    max-width: 820px;
+    margin: 42px auto 0;
+    padding: 22px 24px;
+    color: #76685a;
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(126, 105, 81, 0.13);
+    font-size: 0.76rem;
+    font-weight: 300;
+    line-height: 1.7;
+}
+
+.treatment-catalog-note i {
+    margin-top: 3px;
+    color: #8c9b6f;
+}
+
+.treatment-products-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    padding: 95px max(50px, calc((100vw - 1180px) / 2));
+    background: #302b26;
+    color: var(--white);
+}
+
+.treatment-products-link > div {
+    max-width: 780px;
+}
+
+.treatment-products-link h2 {
+    margin-bottom: 18px;
+    color: var(--white);
+    font-size: clamp(2.5rem, 5vw, 4.4rem);
+    line-height: 0.98;
+}
+
+.treatment-products-link p {
+    max-width: 680px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+}
+
 /* --- Prodotti Page --- */
 .products-hero {
     min-height: 88svh;
@@ -1661,7 +2041,7 @@ h1, h2, h3 {
     --line-soft: #f7efe5;
     position: relative;
     display: flex;
-    min-height: 250px;
+    min-height: 410px;
     flex-direction: column;
     justify-content: flex-start;
     overflow: hidden;
@@ -1740,12 +2120,51 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
     overflow-wrap: anywhere;
 }
 
+.marzia-line-focus {
+    display: block;
+    min-height: 34px;
+    margin: -3px 0 10px;
+    color: #77685a;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 1.15px;
+    line-height: 1.45;
+    text-transform: uppercase;
+}
+
 .marzia-line-description {
-    margin: 0 0 22px;
+    margin: 0 0 18px;
     color: #70665a;
-    font-size: 0.79rem;
+    font-size: 0.8rem;
     font-weight: 300;
     line-height: 1.62;
+}
+
+.marzia-line-benefits {
+    display: grid;
+    gap: 8px;
+    margin: 0 0 24px;
+    padding: 0;
+    color: #62584e;
+    font-size: 0.73rem;
+    font-weight: 400;
+    line-height: 1.45;
+    list-style: none;
+}
+
+.marzia-line-benefits li {
+    position: relative;
+    padding-left: 17px;
+}
+
+.marzia-line-benefits li::before {
+    content: '';
+    position: absolute;
+    top: 0.62em;
+    left: 0;
+    width: 7px;
+    height: 1px;
+    background: var(--line-color-alt);
 }
 
 .marzia-products-note {
@@ -2749,6 +3168,35 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
     .marzia-line-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .treatments-hero {
+        min-height: 80svh;
+        padding: 150px 30px 78px;
+        background-position: center 52%;
+    }
+
+    .treatment-intro-section {
+        grid-template-columns: 1fr;
+        padding: 90px 30px;
+    }
+
+    .treatment-needs {
+        max-width: 680px;
+    }
+
+    .treatment-catalog-section {
+        padding: 90px 30px 100px;
+    }
+
+    .treatment-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .treatment-products-link {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 82px 30px;
+    }
 }
 
 /* --- MOBILE LAYOUT (max-width: 768px) --- */
@@ -2880,6 +3328,22 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
         font-size: 3.2rem;
     }
 
+    .treatments-hero {
+        min-height: 88svh;
+        padding: 136px 20px 68px;
+        background:
+            linear-gradient(90deg, rgba(40, 31, 25, 0.8) 0%, rgba(67, 52, 40, 0.54) 62%, rgba(89, 67, 49, 0.24) 100%),
+            url('../img/optimized/cabina-rituale-wide-960.jpg') center 52% / cover no-repeat;
+    }
+
+    .treatments-hero h1 {
+        font-size: clamp(3.35rem, 15vw, 5.1rem);
+    }
+
+    .treatments-hero p {
+        font-size: 0.9rem;
+    }
+
     .products-actions {
         flex-direction: column;
     }
@@ -2893,6 +3357,80 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
     .marzia-products-section,
     .products-cta-band {
         padding: 72px 20px;
+    }
+
+    .treatment-intro-section,
+    .treatment-catalog-section {
+        padding: 76px 20px;
+    }
+
+    .treatment-intro-copy h2,
+    .treatment-catalog-heading h2 {
+        font-size: clamp(2.55rem, 12vw, 3.7rem);
+    }
+
+    .treatment-needs {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .treatment-needs span {
+        min-height: 58px;
+    }
+
+    .treatment-catalog-heading {
+        margin-bottom: 34px;
+        text-align: left;
+    }
+
+    .treatment-filters {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        margin: 0 -20px;
+        padding: 4px 20px 12px;
+        scrollbar-width: none;
+    }
+
+    .treatment-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    .treatment-filter {
+        flex: 0 0 auto;
+    }
+
+    .treatment-filter-status {
+        text-align: left;
+    }
+
+    .treatment-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .treatment-card {
+        min-height: auto;
+        padding: 27px 22px 23px;
+    }
+
+    .treatment-card h3 {
+        font-size: 2.05rem;
+    }
+
+    .treatment-products-link {
+        padding: 76px 20px;
+    }
+
+    .treatment-products-link .btn-luxury {
+        width: 100%;
+    }
+
+    .treatment-preview-cta {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 18px;
+        margin-top: -10px;
+        padding: 32px 22px;
     }
 
     .products-intro-image {
