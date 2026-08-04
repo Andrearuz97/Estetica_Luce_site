@@ -112,6 +112,8 @@ foreach ($flag in @('it.svg', 'gb.svg')) {
 }
 
 Assert-True ($style.Contains('touch-action: pan-y')) 'I caroselli devono preservare lo scorrimento verticale touch.'
+Assert-True ([regex]::IsMatch($style, 'html\s*\{[^}]*-webkit-tap-highlight-color:\s*transparent', 'Singleline')) 'Il tap highlight mobile deve essere disattivato globalmente.'
+Assert-True ([regex]::IsMatch($style, 'summary,\s*\[role="button"\]')) 'I controlli details devono ereditare la rimozione del tap highlight.'
 $script = Get-Content (Join-Path $projectRoot 'assets\script\script.js') -Raw
 Assert-True ($script.Contains('lostpointercapture')) 'Manca la gestione dello swipe interrotto.'
 Assert-True ($script.Contains('ResizeObserver')) 'Manca il riallineamento responsive dei caroselli.'
