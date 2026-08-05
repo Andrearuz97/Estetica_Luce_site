@@ -61,6 +61,10 @@ Assert-True (-not ($italianTreatments.Contains([char]0x20AC) -or $italianTreatme
 Assert-True (-not ($englishTreatments.Contains([char]0x20AC) -or $englishTreatments.Contains('&euro;'))) 'Il catalogo trattamenti inglese non deve mostrare prezzi.'
 Assert-True (([regex]::Matches($italianProducts, 'class="marzia-line-focus"')).Count -eq 12) 'Le 12 card prodotti italiane devono indicare l esigenza.'
 Assert-True (([regex]::Matches($englishProducts, 'class="marzia-line-focus"')).Count -eq 12) 'Le 12 card prodotti inglesi devono indicare l esigenza.'
+foreach ($page in @($italianTreatments, $englishTreatments, $italianProducts, $englishProducts)) {
+    Assert-True ($page -match 'class="page-hero (?:treatments|products)-hero"') 'Le pagine guida devono condividere la stessa struttura hero.'
+    Assert-True ($page -match 'class="page-hero-title"') 'Le pagine guida devono condividere la stessa gerarchia tipografica hero.'
+}
 $allHtml = ($htmlFiles | ForEach-Object { Get-Content $_.FullName -Raw -Encoding utf8 }) -join "`n"
 Assert-True (-not ([regex]::IsMatch($allHtml, 'footer-nav-block|class="footer-nav"'))) 'Il footer contiene ancora una navigazione ridondante.'
 Assert-True (([regex]::Matches($allHtml, 'class="navbar-brand-text"')).Count -eq $htmlFiles.Count) 'Il lockup completo del brand deve apparire in ogni navbar.'
