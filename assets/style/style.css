@@ -386,8 +386,10 @@ h1, h2, h3 {
     display: none; /* Gestito in responsive */
     flex-direction: column;
     justify-content: space-between;
-    width: 26px;
-    height: 18px;
+    width: 44px;
+    height: 44px;
+    padding: 13px 9px;
+    margin-right: -9px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -4054,8 +4056,7 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
     }
 
     .hamburger-menu {
-        flex: 0 0 26px;
-        padding: 0;
+        flex: 0 0 44px;
     }
 }
 
