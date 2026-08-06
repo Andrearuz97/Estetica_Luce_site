@@ -33,21 +33,18 @@
     --dark-text: #2D2D2D;      /* Testo principale per massima leggibilità */
     --light-text: #6E6E6E;     /* Testi secondari e descrizioni */
     --white: #FFFFFF;
-    --hero-background-image: url('../img/optimized/cabina-rituale-1200.jpg');
-    --hero-background-position: center 50%;
-    --img-trattamento-mani: url('../img/optimized/mani-dettaglio-1200.jpg');
-    --img-trattamento-viso-corpo: url('../img/optimized/cabina-corpo-wide-1800.jpg');
+    --hero-background-image: url('../img/optimized/specchio-1800.jpg');
+    --hero-background-position: left center;
+    --img-trattamento-viso: url('../img/optimized/cabina-rituale-wide-1800.jpg');
+    --img-trattamento-corpo: url('../img/optimized/cabina-corpo-wide-1800.jpg');
+    --img-trattamento-presso: url('../img/optimized/pressoterapia-1200.jpg');
     --img-trattamento-massaggi: url('../img/optimized/massaggi-dettaglio-1200.jpg');
-    --img-trattamento-sguardo: url('../img/optimized/sguardo-servizio-1200.jpg');
-    --img-trattamento-epilazione: url('../img/optimized/epilazione-dettaglio-1200.jpg');
     --img-gallery-ingresso: url('../img/optimized/ingresso-1800.jpg');
     --img-gallery-cabina-corpo: url('../img/optimized/cabina-corpo-wide-1800.jpg');
     --img-gallery-cabina-mani: url('../img/optimized/cabina-mani-1800.jpg');
     --img-gallery-cabina-rituale: url('../img/optimized/cabina-rituale-wide-1800.jpg');
     --img-gallery-prodotti: url('../img/optimized/prodotti-1800.jpg');
     --img-products-hero: url('../img/optimized/prodotti-1800.jpg');
-    --img-products-intro: url('../img/optimized/cabina-mani-1800.jpg');
-    --img-map-consent: url('../img/optimized/ingresso-1800.jpg');
     --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -201,12 +198,11 @@ h1, h2, h3 {
 /* ==========================================================================
    3. BACKGROUND IMAGES MAPPING (Sostituzione stili inline)
    ========================================================================== */
-/* Trattamenti */
-.trattamento-1 { --image-position: center 42%; background-image: var(--img-trattamento-mani); }
-.trattamento-2 { --image-position: center 52%; background-image: var(--img-trattamento-viso-corpo); }
-.trattamento-3 { --image-position: center 50%; background-image: var(--img-trattamento-massaggi); }
-.trattamento-4 { --image-position: center 50%; background-image: var(--img-trattamento-sguardo); }
-.trattamento-5 { --image-position: center 76%; background-image: var(--img-trattamento-epilazione); }
+/* Anteprime descrittive: fotografie coerenti con ciascuna famiglia. */
+.trattamento-preview-viso { --image-position: center 50%; background-image: var(--img-trattamento-viso); }
+.trattamento-preview-corpo { --image-position: center 52%; background-image: var(--img-trattamento-corpo); }
+.trattamento-preview-presso { --image-position: center 50%; background-image: var(--img-trattamento-presso); }
+.trattamento-preview-massaggi { --image-position: center 48%; background-image: var(--img-trattamento-massaggi); }
 
 /* Galleria */
 .gallery-photo-ingresso { --image-position: center 50%; background-image: var(--img-gallery-ingresso); }
@@ -217,21 +213,18 @@ h1, h2, h3 {
 
 @media (max-width: 768px) {
     :root {
-        --hero-background-image: url('../img/optimized/cabina-rituale-900.jpg');
-        --hero-background-position: center 54%;
-        --img-trattamento-mani: url('../img/optimized/mani-dettaglio-900.jpg');
-        --img-trattamento-viso-corpo: url('../img/optimized/cabina-corpo-wide-960.jpg');
+        --hero-background-image: url('../img/optimized/specchio-960.jpg');
+        --hero-background-position: 48% center;
+        --img-trattamento-viso: url('../img/optimized/cabina-rituale-wide-960.jpg');
+        --img-trattamento-corpo: url('../img/optimized/cabina-corpo-wide-960.jpg');
+        --img-trattamento-presso: url('../img/optimized/pressoterapia-900.jpg');
         --img-trattamento-massaggi: url('../img/optimized/massaggi-dettaglio-900.jpg');
-        --img-trattamento-sguardo: url('../img/optimized/sguardo-servizio-900.jpg');
-        --img-trattamento-epilazione: url('../img/optimized/epilazione-dettaglio-900.jpg');
         --img-gallery-ingresso: url('../img/optimized/ingresso-960.jpg');
         --img-gallery-cabina-corpo: url('../img/optimized/cabina-corpo-wide-960.jpg');
         --img-gallery-cabina-mani: url('../img/optimized/cabina-mani-960.jpg');
         --img-gallery-cabina-rituale: url('../img/optimized/cabina-rituale-wide-960.jpg');
         --img-gallery-prodotti: url('../img/optimized/prodotti-960.jpg');
         --img-products-hero: url('../img/optimized/prodotti-960.jpg');
-        --img-products-intro: url('../img/optimized/cabina-mani-960.jpg');
-        --img-map-consent: url('../img/optimized/ingresso-960.jpg');
     }
 }
 
@@ -425,8 +418,8 @@ h1, h2, h3 {
     position: relative;
     overflow: hidden;
     background:
-        linear-gradient(90deg, rgba(244, 237, 227, 0.94) 0%, rgba(242, 233, 221, 0.88) 34%, rgba(235, 222, 207, 0.53) 66%, rgba(224, 205, 184, 0.40) 100%),
-        var(--hero-background-image) center 55% / cover no-repeat;
+        linear-gradient(90deg, rgba(244, 237, 227, 0.97) 0%, rgba(242, 233, 221, 0.92) 38%, rgba(235, 222, 207, 0.54) 67%, rgba(224, 205, 184, 0.28) 100%),
+        var(--hero-background-image) var(--hero-background-position) / cover no-repeat;
     padding: clamp(154px, 18vh, 190px) clamp(30px, 7vw, 112px) clamp(112px, 13vh, 142px);
 }
 
@@ -660,8 +653,10 @@ h1, h2, h3 {
 }
 
 .img-placeholder {
+    position: relative;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     background-size: cover;
     background-position: var(--image-position, center);
     transition: transform 0.8s ease;
@@ -1058,6 +1053,9 @@ h1, h2, h3 {
 .before-after-card figcaption {
     position: relative;
     z-index: 1;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     padding: 16px 18px 18px;
     color: var(--dark-text);
     background: #fffaf4;
@@ -1083,6 +1081,37 @@ h1, h2, h3 {
     color: var(--dark-text);
     font-size: clamp(1.08rem, 1.5vw, 1.32rem);
     line-height: 1.18;
+}
+
+.before-after-treatment-link {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 9px;
+    margin-top: auto;
+    padding-top: 14px;
+    color: #77634d;
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 1px;
+    line-height: 1.3;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.before-after-treatment-link i {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+.before-after-treatment-link:hover,
+.before-after-treatment-link:focus-visible {
+    color: #4f4337;
+}
+
+.before-after-treatment-link:hover i,
+.before-after-treatment-link:focus-visible i {
+    transform: translateX(4px);
 }
 
 .before-after-note {
@@ -1649,24 +1678,69 @@ h1, h2, h3 {
     gap: 12px;
 }
 
-.treatment-needs span {
+.treatment-need {
     display: flex;
     align-items: center;
     gap: 11px;
+    width: 100%;
     min-height: 72px;
     padding: 16px 18px;
     color: #5e5145;
     background: linear-gradient(145deg, #fbf7f0, #f1e7d9);
     border: 1px solid rgba(126, 105, 81, 0.14);
+    border-radius: 0;
+    font: inherit;
     font-size: 0.82rem;
     letter-spacing: 0.04em;
+    text-align: left;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.treatment-needs i {
+.treatment-need i {
     width: 28px;
     color: var(--accent-gold);
     font-size: 1.12rem;
     text-align: center;
+    transition: color 0.3s ease;
+}
+
+.treatment-need::after {
+    content: '→';
+    margin-left: auto;
+    color: #9d856c;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9rem;
+    opacity: 0.62;
+    transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+.treatment-need:hover,
+.treatment-need:focus-visible {
+    color: #443a31;
+    border-color: rgba(126, 105, 81, 0.34);
+    box-shadow: 0 14px 32px rgba(83, 65, 45, 0.08);
+    transform: translateY(-2px);
+}
+
+.treatment-need:hover::after,
+.treatment-need:focus-visible::after {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+.treatment-need.is-active {
+    color: #fffaf3;
+    background: linear-gradient(135deg, #6f604f, #88735d);
+    border-color: #6f604f;
+    box-shadow: 0 16px 36px rgba(74, 57, 42, 0.16);
+}
+
+.treatment-need.is-active i,
+.treatment-need.is-active::after {
+    color: #f2ddad;
+    opacity: 1;
 }
 
 .treatment-catalog-section {
@@ -1679,6 +1753,7 @@ h1, h2, h3 {
 .treatment-catalog-heading {
     max-width: 880px;
     margin: 0 auto 44px;
+    scroll-margin-top: 112px;
     text-align: center;
 }
 
@@ -1746,6 +1821,53 @@ h1, h2, h3 {
     text-align: center;
 }
 
+.treatment-filter-feedback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px 18px;
+    min-height: 48px;
+    margin: 14px auto 34px;
+}
+
+.treatment-filter-feedback .treatment-filter-status {
+    margin: 0;
+}
+
+.treatment-view-share {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 8px 15px;
+    color: #6f604f;
+    background: rgba(255, 255, 255, 0.64);
+    border: 1px solid rgba(126, 105, 81, 0.24);
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.61rem;
+    font-weight: 650;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.treatment-view-share[hidden] {
+    display: none;
+}
+
+.treatment-view-share:hover,
+.treatment-view-share:focus-visible,
+.treatment-view-share.is-copied {
+    color: #443a31;
+    background: #fff;
+    border-color: rgba(126, 105, 81, 0.48);
+    transform: translateY(-1px);
+}
+
 .treatment-card-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1763,18 +1885,31 @@ h1, h2, h3 {
     min-height: 390px;
     flex-direction: column;
     padding: 29px 27px 25px;
+    scroll-margin-top: 112px;
     overflow: hidden;
     background:
         linear-gradient(90deg, var(--treatment-accent), var(--treatment-accent-dark)) top / 100% 5px no-repeat,
         rgba(255, 255, 255, 0.86);
     border: 1px solid rgba(126, 105, 81, 0.14);
     box-shadow: 0 18px 42px rgba(83, 65, 45, 0.065);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, opacity 0.2s ease;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, opacity 0.2s ease;
 }
 
 .treatment-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 28px 64px rgba(83, 65, 45, 0.12);
+}
+
+.treatment-card:focus {
+    outline: none;
+}
+
+.treatment-card.is-linked {
+    border-color: var(--treatment-accent-dark);
+    outline: 2px solid var(--treatment-accent-dark);
+    outline-offset: 5px;
+    box-shadow: 0 30px 72px rgba(83, 65, 45, 0.15);
+    transform: translateY(-3px);
 }
 
 .treatment-card[hidden] {
@@ -1892,6 +2027,53 @@ h1, h2, h3 {
     line-height: 1.65;
 }
 
+.treatment-card-share {
+    display: flex;
+    gap: 8px;
+    margin-top: 17px;
+}
+
+.treatment-share-action {
+    display: inline-flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    min-height: 40px;
+    padding: 9px 11px;
+    color: #716354;
+    background: var(--treatment-soft);
+    border: 1px solid rgba(126, 105, 81, 0.14);
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.61rem;
+    font-weight: 650;
+    letter-spacing: 0.75px;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.treatment-share-action i {
+    flex: 0 0 auto;
+    color: var(--treatment-accent-dark);
+    font-size: 0.78rem;
+}
+
+.treatment-share-action:hover,
+.treatment-share-action:focus-visible,
+.treatment-share-action.is-copied {
+    color: #4f453c;
+    background: #fff;
+    border-color: var(--treatment-accent);
+    transform: translateY(-1px);
+}
+
 .treatment-catalog-note {
     display: flex;
     align-items: flex-start;
@@ -1995,13 +2177,86 @@ h1, h2, h3 {
 }
 
 .products-intro-image {
-    --products-intro-photo-position: 30% 50%;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-content: center;
+    gap: 28px;
     min-height: 560px;
+    overflow: hidden;
+    padding: clamp(38px, 5vw, 64px);
     background:
-        linear-gradient(to top, rgba(37, 31, 25, 0.42), rgba(37, 31, 25, 0.06)),
-        var(--img-products-intro) var(--products-intro-photo-position) / cover no-repeat;
+        radial-gradient(circle at 92% 8%, rgba(255, 255, 255, 0.72) 0 8%, transparent 8.4% 100%),
+        linear-gradient(145deg, #eee3d5 0%, #dfceb9 58%, #c4ab90 100%);
     border: 1px solid rgba(126, 105, 81, 0.13);
     box-shadow: 0 24px 70px rgba(86, 66, 45, 0.1);
+}
+
+.products-intro-image::before {
+    content: '03';
+    position: absolute;
+    z-index: -1;
+    top: -0.2em;
+    right: -0.02em;
+    color: rgba(255, 255, 255, 0.26);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(13rem, 24vw, 21rem);
+    line-height: 1;
+}
+
+.products-guide-kicker {
+    color: #745e47;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.products-guide-steps {
+    display: grid;
+    gap: 16px;
+    list-style: none;
+}
+
+.products-guide-step {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+    padding: 18px 0;
+    border-top: 1px solid rgba(91, 72, 52, 0.18);
+}
+
+.products-guide-step:last-child {
+    border-bottom: 1px solid rgba(91, 72, 52, 0.18);
+}
+
+.products-guide-step > span {
+    color: rgba(92, 71, 49, 0.62);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    line-height: 1.1;
+}
+
+.products-guide-step strong,
+.products-guide-step small {
+    display: block;
+}
+
+.products-guide-step strong {
+    margin-bottom: 4px;
+    color: #443a31;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    line-height: 1.12;
+}
+
+.products-guide-step small {
+    color: #67594c;
+    font-size: 0.76rem;
+    font-weight: 300;
+    line-height: 1.55;
 }
 
 .marzia-products-section {
@@ -2432,8 +2687,9 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
     place-items: center;
     padding: 34px 22px;
     background:
-        linear-gradient(135deg, rgba(238, 227, 212, 0.92), rgba(250, 247, 242, 0.96)),
-        var(--img-map-consent) center / cover no-repeat;
+        radial-gradient(circle at 18% 28%, rgba(181, 143, 94, 0.12) 0 1px, transparent 2px 100%),
+        radial-gradient(circle at 82% 72%, rgba(181, 143, 94, 0.10) 0 1px, transparent 2px 100%),
+        linear-gradient(135deg, #eee3d4, #faf7f2);
     border: 1px solid rgba(140, 126, 109, 0.13);
     border-radius: 4px;
     box-shadow: 0 10px 30px rgba(140, 126, 109, 0.05);
@@ -3237,8 +3493,8 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
     .hero-section {
         padding: 132px 20px 126px;
         background:
-            linear-gradient(90deg, rgba(244, 237, 227, 0.93) 0%, rgba(242, 233, 221, 0.84) 50%, rgba(231, 216, 199, 0.57) 100%),
-            var(--hero-background-image) center 54% / cover no-repeat;
+            linear-gradient(90deg, rgba(244, 237, 227, 0.96) 0%, rgba(242, 233, 221, 0.88) 55%, rgba(231, 216, 199, 0.54) 100%),
+            var(--hero-background-image) var(--hero-background-position) / cover no-repeat;
     }
 
     .hero-section::before {
@@ -3388,7 +3644,7 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
         gap: 9px;
     }
 
-    .treatment-needs span {
+    .treatment-need {
         min-height: 58px;
     }
 
@@ -3416,6 +3672,12 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
 
     .treatment-filter-status {
         text-align: left;
+    }
+
+    .treatment-filter-feedback {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: 10px;
     }
 
     .treatment-card-grid {
@@ -3448,8 +3710,8 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
     }
 
     .products-intro-image {
-        min-height: 0;
-        aspect-ratio: 6 / 5;
+        min-height: auto;
+        padding: 40px 24px;
     }
 
     .marzia-products-intro {
@@ -3861,6 +4123,10 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
         transform: none;
     }
 
+    .before-after-treatment-link:hover i {
+        transform: none;
+    }
+
     .btn-ritual-action:hover {
         color: var(--dark-text);
         padding-left: 0;
@@ -3903,6 +4169,75 @@ html[lang="en"] .marzia-line-card.other-brand-card::before {
         transform: none;
         border-color: rgba(126, 105, 81, 0.13);
         box-shadow: 0 18px 42px rgba(83, 65, 45, 0.065);
+    }
+
+    .treatment-need:hover {
+        color: #5e5145;
+        background: linear-gradient(145deg, #fbf7f0, #f1e7d9);
+        border-color: rgba(126, 105, 81, 0.14);
+        box-shadow: none;
+        transform: none;
+    }
+
+    .treatment-need:hover::after {
+        color: #9d856c;
+        opacity: 0.62;
+        transform: none;
+    }
+
+    .treatment-need.is-active,
+    .treatment-need.is-active:hover {
+        color: #fffaf3;
+        background: linear-gradient(135deg, #6f604f, #88735d);
+        border-color: #6f604f;
+        box-shadow: 0 16px 36px rgba(74, 57, 42, 0.16);
+    }
+
+    .treatment-need.is-active i,
+    .treatment-need.is-active::after,
+    .treatment-need.is-active:hover::after {
+        color: #f2ddad;
+        opacity: 1;
+    }
+
+    .treatment-view-share:hover {
+        color: #6f604f;
+        background: rgba(255, 255, 255, 0.64);
+        border-color: rgba(126, 105, 81, 0.24);
+        transform: none;
+    }
+
+    .treatment-view-share.is-copied,
+    .treatment-view-share.is-copied:hover {
+        color: #443a31;
+        background: #fff;
+        border-color: rgba(126, 105, 81, 0.48);
+    }
+
+    .treatment-card:hover {
+        transform: none;
+        box-shadow: 0 18px 42px rgba(83, 65, 45, 0.065);
+    }
+
+    .treatment-card.is-linked,
+    .treatment-card.is-linked:hover {
+        border-color: var(--treatment-accent-dark);
+        box-shadow: 0 30px 72px rgba(83, 65, 45, 0.15);
+        transform: none;
+    }
+
+    .treatment-share-action:hover {
+        color: #716354;
+        background: var(--treatment-soft);
+        border-color: rgba(126, 105, 81, 0.14);
+        transform: none;
+    }
+
+    .treatment-share-action.is-copied,
+    .treatment-share-action.is-copied:hover {
+        color: #4f453c;
+        background: #fff;
+        border-color: var(--treatment-accent);
     }
 
     .btn-whatsapp:hover {

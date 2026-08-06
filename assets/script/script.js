@@ -121,7 +121,7 @@ const setupScrollReveals = () => {
         ".marzia-products-note",
         ".products-cta-band > *",
         ".treatment-intro-copy",
-        ".treatment-needs > span",
+        ".treatment-needs > .treatment-need",
         ".treatment-catalog-heading",
         ".treatment-filters",
         ".treatment-card-grid > .treatment-card",
@@ -176,8 +176,10 @@ setupScrollReveals();
 
 const setupTreatmentFilters = () => {
     const buttons = [...document.querySelectorAll("[data-treatment-filter]")];
+    const needButtons = [...document.querySelectorAll("[data-treatment-need]")];
     const cards = [...document.querySelectorAll("[data-treatment-card]")];
     const status = document.querySelector("[data-treatment-status]");
+    const viewShareButton = document.querySelector("[data-treatment-view-share]");
 
     if (!buttons.length || !cards.length) return;
 
@@ -185,10 +187,268 @@ const setupTreatmentFilters = () => {
         it: (count) => `${count} ${count === 1 ? "trattamento" : "trattamenti"} da scoprire`,
         en: (count) => `${count} ${count === 1 ? "treatment" : "treatments"} to discover`,
     };
+    const needStatusLabels = {
+        it: (count, need) => `${count} ${count === 1 ? "trattamento" : "trattamenti"} per “${need}”`,
+        en: (count, need) => `${count} ${count === 1 ? "treatment" : "treatments"} for “${need}”`,
+    };
+    const treatmentNeedMap = [
+        ["radiance"],
+        ["radiance", "hydration", "firmness"],
+        ["radiance", "firmness"],
+        ["radiance"],
+        [],
+        ["hydration"],
+        ["lightness", "drainage"],
+        ["lightness", "drainage"],
+        ["lightness", "drainage", "firmness"],
+        ["firmness"],
+        ["lightness", "drainage"],
+        ["lightness", "drainage"],
+        ["lightness", "drainage", "relaxation"],
+        ["drainage", "relaxation"],
+        ["relaxation"],
+        ["hydration", "relaxation"],
+        ["lightness", "drainage", "firmness"],
+        ["relaxation"],
+    ];
+    const guideRouting = {
+        it: {
+            categoryParam: "categoria",
+            needParam: "esigenza",
+            catalogHash: "catalogo",
+            categories: { viso: "viso", corpo: "corpo", pressoterapia: "pressoterapia", massaggi: "massaggi" },
+            needs: {
+                radiance: "luminosita",
+                hydration: "idratazione",
+                lightness: "leggerezza",
+                firmness: "compattezza",
+                drainage: "drenaggio",
+                relaxation: "relax",
+            },
+        },
+        en: {
+            categoryParam: "category",
+            needParam: "need",
+            catalogHash: "catalogue",
+            categories: { viso: "face", corpo: "body", pressoterapia: "pressotherapy", massaggi: "massage" },
+            needs: {
+                radiance: "radiance",
+                hydration: "hydration",
+                lightness: "lightness",
+                firmness: "firmness",
+                drainage: "drainage",
+                relaxation: "relaxation",
+            },
+        },
+    };
+    const viewShareLabels = {
+        it: {
+            button: "Condividi questa selezione",
+            copied: "Link copiato",
+            title: (selection) => `Trattamenti: ${selection} | Estetica Luce`,
+            text: (selection) => `Guarda i trattamenti della selezione “${selection}” di Estetica Luce.`,
+        },
+        en: {
+            button: "Share this selection",
+            copied: "Link copied",
+            title: (selection) => `Treatments: ${selection} | Estetica Luce`,
+            text: (selection) => `View the “${selection}” treatment selection from Estetica Luce.`,
+        },
+    };
+    const route = guideRouting[pageLanguage];
+    const shareLabels = {
+        it: {
+            group: "Condividi questo trattamento",
+            copy: "Copia link",
+            copied: "Link copiato",
+            copyAria: (name) => `Copia il link diretto a ${name}`,
+            whatsappAria: (name) => `Invia ${name} su WhatsApp`,
+            message: (name, url) => `Guarda il trattamento “${name}” di Estetica Luce: ${url}`,
+            fallback: "Copia questo link:",
+        },
+        en: {
+            group: "Share this treatment",
+            copy: "Copy link",
+            copied: "Link copied",
+            copyAria: (name) => `Copy the direct link to ${name}`,
+            whatsappAria: (name) => `Send ${name} on WhatsApp`,
+            message: (name, url) => `Take a look at the “${name}” treatment at Estetica Luce: ${url}`,
+            fallback: "Copy this link:",
+        },
+    };
+    const labels = shareLabels[pageLanguage];
 
-    const selectFilter = (selectedButton) => {
+    const slugify = (value) => value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/\+/g, " plus ")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+    const getTreatmentName = (card) => {
+        const heading = card.querySelector("h3");
+        if (!heading) return "";
+
+        const headingCopy = heading.cloneNode(true);
+        headingCopy.querySelectorAll("small").forEach((item) => item.remove());
+        return headingCopy.textContent.replace(/\s+/g, " ").trim();
+    };
+
+    const getDirectUrl = (card) => {
+        const url = new URL(window.location.href);
+        url.search = "";
+        url.hash = card.id;
+        return url.href;
+    };
+
+    const copyLink = async (value) => {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(value);
+            return;
+        }
+
+        const textArea = document.createElement("textarea");
+        textArea.value = value;
+        textArea.setAttribute("readonly", "");
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.select();
+        const copied = document.execCommand("copy");
+        textArea.remove();
+        if (!copied) throw new Error("Copy not available");
+    };
+
+    const getInternalRouteValue = (values, publicValue) => Object.entries(values)
+        .find(([, value]) => value === publicValue)?.[0];
+
+    const updateGuideUrl = (type, value) => {
+        const url = new URL(window.location.href);
+        url.search = "";
+
+        if (type === "category" && value !== "all") {
+            url.searchParams.set(route.categoryParam, route.categories[value]);
+        }
+
+        if (type === "need") {
+            url.searchParams.set(route.needParam, route.needs[value]);
+        }
+
+        url.hash = route.catalogHash;
+        window.history.replaceState(null, "", url.href);
+    };
+
+    const updateViewShareButton = (selection = "") => {
+        if (!viewShareButton) return;
+
+        viewShareButton.hidden = !selection;
+        viewShareButton.dataset.selection = selection;
+        const label = viewShareButton.querySelector("span");
+        if (label) label.textContent = viewShareLabels[pageLanguage].button;
+    };
+
+    if (viewShareButton) {
+        let shareFeedbackTimer;
+
+        viewShareButton.addEventListener("click", async () => {
+            const selection = viewShareButton.dataset.selection;
+            const buttonLabel = viewShareButton.querySelector("span");
+            const shareData = {
+                title: viewShareLabels[pageLanguage].title(selection),
+                text: viewShareLabels[pageLanguage].text(selection),
+                url: window.location.href,
+            };
+
+            window.clearTimeout(shareFeedbackTimer);
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                    return;
+                }
+
+                await copyLink(shareData.url);
+                viewShareButton.classList.add("is-copied");
+                if (buttonLabel) buttonLabel.textContent = viewShareLabels[pageLanguage].copied;
+                shareFeedbackTimer = window.setTimeout(() => {
+                    viewShareButton.classList.remove("is-copied");
+                    if (buttonLabel) buttonLabel.textContent = viewShareLabels[pageLanguage].button;
+                }, 2200);
+            } catch (error) {
+                if (error?.name !== "AbortError") window.prompt(labels.fallback, shareData.url);
+            }
+        });
+    }
+
+    const usedIds = new Set([...document.querySelectorAll("[id]")].map((element) => element.id));
+
+    cards.forEach((card, index) => {
+        const treatmentName = getTreatmentName(card) || `${pageLanguage === "en" ? "treatment" : "trattamento"}-${index + 1}`;
+        const baseId = slugify(treatmentName) || `treatment-${index + 1}`;
+        let cardId = baseId;
+        let duplicateIndex = 2;
+
+        while (usedIds.has(cardId)) {
+            cardId = `${baseId}-${duplicateIndex}`;
+            duplicateIndex += 1;
+        }
+
+        card.id = cardId;
+        card.dataset.needs = treatmentNeedMap[index]?.join(" ") || "";
+        usedIds.add(cardId);
+
+        const directUrl = getDirectUrl(card);
+        const actions = document.createElement("div");
+        actions.className = "treatment-card-share";
+        actions.setAttribute("role", "group");
+        actions.setAttribute("aria-label", labels.group);
+
+        const copyButton = document.createElement("button");
+        copyButton.type = "button";
+        copyButton.className = "treatment-share-action";
+        copyButton.setAttribute("aria-label", labels.copyAria(treatmentName));
+        copyButton.innerHTML = `<i class="fa-solid fa-link" aria-hidden="true"></i><span aria-live="polite">${labels.copy}</span>`;
+
+        const whatsappLink = document.createElement("a");
+        whatsappLink.className = "treatment-share-action";
+        whatsappLink.href = `https://wa.me/?text=${encodeURIComponent(labels.message(treatmentName, directUrl))}`;
+        whatsappLink.target = "_blank";
+        whatsappLink.rel = "noopener";
+        whatsappLink.setAttribute("aria-label", labels.whatsappAria(treatmentName));
+        whatsappLink.innerHTML = '<i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>WhatsApp</span>';
+
+        let feedbackTimer;
+        copyButton.addEventListener("click", async () => {
+            const copyLabel = copyButton.querySelector("span");
+            window.clearTimeout(feedbackTimer);
+
+            try {
+                await copyLink(directUrl);
+                copyButton.classList.add("is-copied");
+                copyLabel.textContent = labels.copied;
+                feedbackTimer = window.setTimeout(() => {
+                    copyButton.classList.remove("is-copied");
+                    copyLabel.textContent = labels.copy;
+                }, 2200);
+            } catch {
+                window.prompt(labels.fallback, directUrl);
+            }
+        });
+
+        actions.append(copyButton, whatsappLink);
+        card.appendChild(actions);
+    });
+
+    const selectFilter = (selectedButton, { updateUrl = true } = {}) => {
         const filter = selectedButton.dataset.treatmentFilter;
+        const selectedLabel = selectedButton.textContent.trim();
         let visibleCount = 0;
+
+        needButtons.forEach((button) => {
+            button.classList.remove("is-active");
+            button.setAttribute("aria-pressed", "false");
+        });
 
         buttons.forEach((button) => {
             const isSelected = button === selectedButton;
@@ -203,9 +463,94 @@ const setupTreatmentFilters = () => {
         });
 
         if (status) status.textContent = statusLabels[pageLanguage](visibleCount);
+        updateViewShareButton(filter === "all" ? "" : selectedLabel);
+        if (updateUrl) updateGuideUrl("category", filter);
     };
 
     buttons.forEach((button) => button.addEventListener("click", () => selectFilter(button)));
+
+    const selectNeed = (selectedButton, { updateUrl = true, scroll = true } = {}) => {
+        const selectedNeed = selectedButton.dataset.treatmentNeed;
+        const selectedLabel = selectedButton.textContent.trim();
+        let visibleCount = 0;
+
+        buttons.forEach((button) => {
+            button.classList.remove("is-active");
+            button.setAttribute("aria-pressed", "false");
+        });
+
+        needButtons.forEach((button) => {
+            const isSelected = button === selectedButton;
+            button.classList.toggle("is-active", isSelected);
+            button.setAttribute("aria-pressed", String(isSelected));
+        });
+
+        cards.forEach((card) => {
+            const isVisible = card.dataset.needs.split(" ").includes(selectedNeed);
+            card.hidden = !isVisible;
+            card.classList.remove("is-linked");
+            if (isVisible) visibleCount += 1;
+        });
+
+        if (status) status.textContent = needStatusLabels[pageLanguage](visibleCount, selectedLabel);
+        updateViewShareButton(selectedLabel);
+        if (updateUrl) updateGuideUrl("need", selectedNeed);
+
+        if (scroll) {
+            document.querySelector(".treatment-catalog-heading")?.scrollIntoView({
+                behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+                block: "start",
+            });
+        }
+    };
+
+    needButtons.forEach((button) => button.addEventListener("click", () => selectNeed(button)));
+
+    const initialParams = new URLSearchParams(window.location.search);
+    const initialNeed = getInternalRouteValue(route.needs, initialParams.get(route.needParam));
+    const initialCategory = getInternalRouteValue(route.categories, initialParams.get(route.categoryParam));
+
+    if (initialNeed) {
+        const initialNeedButton = needButtons.find((button) => button.dataset.treatmentNeed === initialNeed);
+        if (initialNeedButton) selectNeed(initialNeedButton, { updateUrl: false, scroll: false });
+    } else if (initialCategory) {
+        const initialCategoryButton = buttons.find((button) => button.dataset.treatmentFilter === initialCategory);
+        if (initialCategoryButton) selectFilter(initialCategoryButton, { updateUrl: false });
+    }
+
+    const revealLinkedTreatment = (smooth = true) => {
+        let hashId;
+
+        try {
+            hashId = decodeURIComponent(window.location.hash.slice(1));
+        } catch {
+            hashId = window.location.hash.slice(1);
+        }
+
+        const linkedCard = hashId ? document.getElementById(hashId) : null;
+        if (!linkedCard?.matches("[data-treatment-card]")) return;
+
+        if (linkedCard.hidden) {
+            const allButton = buttons.find((button) => button.dataset.treatmentFilter === "all");
+            if (allButton) selectFilter(allButton, { updateUrl: false });
+        }
+
+        cards.forEach((card) => card.classList.toggle("is-linked", card === linkedCard));
+        const details = linkedCard.querySelector("details");
+        if (details) details.open = true;
+
+        linkedCard.tabIndex = -1;
+        window.requestAnimationFrame(() => {
+            linkedCard.scrollIntoView({
+                behavior: smooth && !window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "smooth" : "auto",
+                block: "start",
+            });
+            linkedCard.focus({ preventScroll: true });
+        });
+    };
+
+    revealLinkedTreatment(false);
+    window.addEventListener("hashchange", () => revealLinkedTreatment(true));
 };
 
 setupTreatmentFilters();

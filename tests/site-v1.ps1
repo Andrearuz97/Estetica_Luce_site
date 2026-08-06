@@ -39,6 +39,16 @@ foreach ($htmlFile in $htmlFiles) {
         Assert-True ($iframe.Value -match 'title="[^"]+"') "Iframe senza nome accessibile in $($htmlFile.FullName)."
         Assert-True ($iframe.Value -match 'referrerpolicy="strict-origin-when-cross-origin"') "Iframe con referrerpolicy obsoleta in $($htmlFile.FullName)."
     }
+
+    $jsonLdBlocks = [regex]::Matches($html, '<script type="application/ld\+json">([\s\S]*?)</script>', 'IgnoreCase')
+    foreach ($jsonLdBlock in $jsonLdBlocks) {
+        try {
+            $null = $jsonLdBlock.Groups[1].Value | ConvertFrom-Json
+        }
+        catch {
+            Assert-True $false "JSON-LD non valido in $($htmlFile.FullName): $($_.Exception.Message)"
+        }
+    }
 }
 
 $italianHome = Get-Content (Join-Path $projectRoot 'index.html') -Raw
@@ -55,6 +65,14 @@ Assert-True (([regex]::Matches($italianTreatments, 'data-treatment-card')).Count
 Assert-True (([regex]::Matches($englishTreatments, 'data-treatment-card')).Count -eq 18) 'Il catalogo inglese deve contenere 18 trattamenti speciali.'
 Assert-True (([regex]::Matches($italianTreatments, 'data-category="massaggi"')).Count -eq 5) 'Il catalogo italiano deve contenere 5 massaggi.'
 Assert-True (([regex]::Matches($englishTreatments, 'data-category="massaggi"')).Count -eq 5) 'Il catalogo inglese deve contenere 5 massaggi.'
+Assert-True (([regex]::Matches($italianTreatments, 'data-treatment-need=')).Count -eq 6) 'La guida italiana deve offrire 6 filtri per esigenza.'
+Assert-True (([regex]::Matches($englishTreatments, 'data-treatment-need=')).Count -eq 6) 'La guida inglese deve offrire 6 filtri per esigenza.'
+Assert-True (([regex]::Matches($italianHome, 'trattamenti/index\.html\?categoria=')).Count -eq 4) 'I quattro percorsi della home italiana devono aprire il catalogo gia filtrato.'
+Assert-True (([regex]::Matches($englishHome, 'treatments/index\.html\?category=')).Count -eq 4) 'I quattro percorsi della home inglese devono aprire il catalogo gia filtrato.'
+Assert-True (([regex]::Matches($italianHome, 'trattamenti/index\.html#belly-plus')).Count -eq 2) 'I due risultati Belly Plus italiani devono collegarsi al trattamento.'
+Assert-True (([regex]::Matches($englishHome, 'treatments/index\.html#belly-plus')).Count -eq 2) 'I due risultati Belly Plus inglesi devono collegarsi al trattamento.'
+Assert-True ($italianTreatments -match 'data-treatment-view-share') 'La guida italiana deve permettere di condividere una selezione.'
+Assert-True ($englishTreatments -match 'data-treatment-view-share') 'La guida inglese deve permettere di condividere una selezione.'
 Assert-True (-not ($italianTreatments -match 'Rituali')) 'La dicitura Rituali non deve comparire nel catalogo italiano.'
 Assert-True (-not ($englishTreatments -match 'Rituals')) 'La dicitura Rituals non deve comparire nel catalogo inglese.'
 Assert-True (-not ($italianTreatments.Contains([char]0x20AC) -or $italianTreatments.Contains('&euro;'))) 'Il catalogo trattamenti italiano non deve mostrare prezzi.'
@@ -66,6 +84,53 @@ foreach ($page in @($italianTreatments, $englishTreatments, $italianProducts, $e
     Assert-True ($page -match 'class="page-hero-title"') 'Le pagine guida devono condividere la stessa gerarchia tipografica hero.'
 }
 $allHtml = ($htmlFiles | ForEach-Object { Get-Content $_.FullName -Raw -Encoding utf8 }) -join "`n"
+$descriptivePages = @($italianHome, $englishHome, $italianTreatments, $englishTreatments, $italianProducts, $englishProducts) -join "`n"
+$treatmentGuides = @($italianTreatments, $englishTreatments) -join "`n"
+$indexedPages = @($italianHome, $englishHome, $italianTreatments, $englishTreatments, $italianProducts, $englishProducts)
+$legalPages = @(
+    (Get-Content (Join-Path $projectRoot 'privacy-policy\index.html') -Raw -Encoding utf8),
+    (Get-Content (Join-Path $projectRoot 'cookie-policy\index.html') -Raw -Encoding utf8),
+    (Get-Content (Join-Path $projectRoot 'en\privacy-policy\index.html') -Raw -Encoding utf8),
+    (Get-Content (Join-Path $projectRoot 'en\cookie-policy\index.html') -Raw -Encoding utf8)
+)
+Assert-True (-not ($treatmentGuides -match 'data-treatment-price|treatment-total|treatment-cart|booking-summary')) 'La guida trattamenti deve restare descrittiva, senza prezzi, somme, carrello o riepilogo di prenotazione.'
+Assert-True (([regex]::Matches($allHtml, 'class="btn-floating btn-whatsapp-float"')).Count -eq $htmlFiles.Count) 'Ogni pagina deve mantenere il pulsante WhatsApp flottante.'
+Assert-True ($italianHome -match '<a href="#contatti">Prenota Ora</a>' -and $italianHome -match '>Prenota ora</a>') 'La Home italiana deve mantenere i CTA originali di prenotazione.'
+Assert-True ($englishHome -match '<a href="#contatti">Book Now</a>' -and $englishHome -match '>Book now</a>') 'La Home inglese deve mantenere i CTA originali di prenotazione.'
+Assert-True (([regex]::Matches($italianHome, 'class="img-placeholder[^\"]*trattamento-preview-')).Count -eq 4) 'Le quattro anteprime italiane devono avere un visual coerente dedicato.'
+Assert-True (([regex]::Matches($englishHome, 'class="img-placeholder[^\"]*trattamento-preview-')).Count -eq 4) 'Le quattro anteprime inglesi devono avere un visual coerente dedicato.'
+Assert-True ($italianTreatments -match 'id="contatti" class="contact-section"' -and $englishTreatments -match 'id="contact" class="contact-section"') 'La guida trattamenti deve mantenere il CTA di contatto finale.'
+Assert-True ($italianProducts -match 'id="contatti" class="contact-section"' -and $englishProducts -match 'id="contatti" class="contact-section"') 'La guida prodotti deve mantenere il CTA di contatto finale.'
+Assert-True ($italianProducts -match '>Contattaci</a>' -and $englishProducts -match '>Contact us</a>') 'Il CTA prodotti deve usare una voce collettiva e neutra.'
+Assert-True (-not (($treatmentGuides + $italianProducts + $englishProducts) -match 'Chiedi a Gaia|Ti risponde Gaia|Ask Gaia|Gaia will reply|Selezione fatta da Gaia|Selected by Gaia')) 'I CTA e i consigli devono parlare a nome del centro, senza nominare Gaia.'
+foreach ($page in $indexedPages) {
+    Assert-True ($page -match '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">') 'Ogni pagina principale deve consentire indicizzazione e anteprime ampie.'
+    Assert-True (([regex]::Matches($page, '<link rel="alternate" hreflang=')).Count -eq 3) 'Ogni pagina principale deve dichiarare italiano, inglese e x-default.'
+}
+foreach ($page in $legalPages) {
+    Assert-True ($page -match '<meta name="robots" content="noindex, follow">') 'Le pagine legali non devono competere nei risultati di ricerca.'
+}
+$canonicals = [regex]::Matches($allHtml, '<link rel="canonical" href="https://andrearuz97\.github\.io/Estetica_Luce_site/[^\"]*">')
+Assert-True ($canonicals.Count -eq $htmlFiles.Count) 'Ogni pagina deve dichiarare il proprio URL canonical GitHub Pages.'
+$robotsPath = Join-Path $projectRoot 'robots.txt'
+$sitemapPath = Join-Path $projectRoot 'sitemap.xml'
+Assert-True (Test-Path -LiteralPath $robotsPath) 'robots.txt mancante.'
+Assert-True (Test-Path -LiteralPath $sitemapPath) 'sitemap.xml mancante.'
+if (Test-Path -LiteralPath $robotsPath) {
+    $robots = Get-Content $robotsPath -Raw -Encoding utf8
+    Assert-True ($robots -match 'Sitemap: https://andrearuz97\.github\.io/Estetica_Luce_site/sitemap\.xml') 'robots.txt deve indicare la sitemap GitHub Pages.'
+}
+if (Test-Path -LiteralPath $sitemapPath) {
+    try {
+        [xml]$sitemap = Get-Content $sitemapPath -Raw -Encoding utf8
+        $sitemapUrls = @($sitemap.urlset.url)
+        Assert-True ($sitemapUrls.Count -eq 6) 'La sitemap deve contenere le 6 pagine principali italiane e inglesi.'
+        Assert-True (-not (($sitemapUrls.loc -join "`n") -match 'privacy-policy|cookie-policy')) 'Le pagine legali noindex non devono apparire nella sitemap.'
+    }
+    catch {
+        Assert-True $false "sitemap.xml non valida: $($_.Exception.Message)"
+    }
+}
 Assert-True (-not ([regex]::IsMatch($allHtml, 'footer-nav-block|class="footer-nav"'))) 'Il footer contiene ancora una navigazione ridondante.'
 Assert-True (([regex]::Matches($allHtml, 'class="navbar-brand-text"')).Count -eq $htmlFiles.Count) 'Il lockup completo del brand deve apparire in ogni navbar.'
 $ogImages = [regex]::Matches($allHtml, '<meta property="og:image" content="([^"]+)">')
@@ -118,9 +183,29 @@ foreach ($flag in @('it.svg', 'gb.svg')) {
 Assert-True ($style.Contains('touch-action: pan-y')) 'I caroselli devono preservare lo scorrimento verticale touch.'
 Assert-True ([regex]::IsMatch($style, 'html\s*\{[^}]*-webkit-tap-highlight-color:\s*transparent', 'Singleline')) 'Il tap highlight mobile deve essere disattivato globalmente.'
 Assert-True ([regex]::IsMatch($style, 'summary,\s*\[role="button"\]')) 'I controlli details devono ereditare la rimozione del tap highlight.'
+foreach ($imageVariable in @('--img-trattamento-viso:', '--img-trattamento-corpo:', '--img-trattamento-presso:', '--img-trattamento-massaggi:')) {
+    Assert-True ($style.Contains($imageVariable)) "Manca la fotografia coerente dedicata: $imageVariable"
+}
+Assert-True ($style.Contains("--hero-background-image: url('../img/optimized/specchio-1800.jpg')")) 'La home deve usare un immagine identitaria diversa dalle cabine trattamenti.'
+Assert-True ($style.Contains("--img-trattamento-presso: url('../img/optimized/pressoterapia-1200.jpg')")) 'La pressoterapia deve usare la fotografia locale adattata.'
+Assert-True (([regex]::Matches($italianHome, 'class="gallery-slide')).Count -eq 5) 'Il carosello italiano deve mantenere tutte le cinque fotografie originali.'
+Assert-True (([regex]::Matches($englishHome, 'class="gallery-slide')).Count -eq 5) 'Il carosello inglese deve mantenere tutte le cinque fotografie originali.'
+Assert-True ($style.Contains('.products-guide-step')) 'L introduzione prodotti deve essere una guida utile e non una fotografia duplicata.'
 $script = Get-Content (Join-Path $projectRoot 'assets\script\script.js') -Raw
 Assert-True ($script.Contains('lostpointercapture')) 'Manca la gestione dello swipe interrotto.'
 Assert-True ($script.Contains('ResizeObserver')) 'Manca il riallineamento responsive dei caroselli.'
+Assert-True ($script.Contains('window.addEventListener("hashchange"')) 'I link diretti ai trattamenti devono reagire ai cambi di URL.'
+Assert-True ($script.Contains('navigator.clipboard')) 'Le card trattamenti devono permettere di copiare il link diretto.'
+Assert-True ($script.Contains('https://wa.me/?text=')) 'Le card trattamenti devono poter essere condivise su WhatsApp.'
+Assert-True ($script.Contains('const treatmentNeedMap')) 'I trattamenti devono essere associati alle 6 esigenze della guida.'
+Assert-True ($script.Contains('needStatusLabels')) 'Il filtro per esigenza deve comunicare quanti trattamenti mostra.'
+Assert-True ($script.Contains('const guideRouting')) 'Categorie ed esigenze devono avere URL condivisibili.'
+Assert-True ($script.Contains('navigator.share')) 'La selezione filtrata deve usare la condivisione nativa quando disponibile.'
+Assert-True ($style.Contains('.treatment-card.is-linked')) 'Il trattamento aperto da un link diretto deve essere evidenziato.'
+Assert-True ($style.Contains('.treatment-card-share')) 'Le azioni di condivisione devono avere uno stile dedicato.'
+Assert-True ($style.Contains('.treatment-need.is-active')) 'L esigenza selezionata deve essere riconoscibile visivamente.'
+Assert-True ($style.Contains('.treatment-view-share')) 'La condivisione della selezione deve avere uno stile dedicato.'
+Assert-True ($style.Contains('.before-after-treatment-link')) 'I risultati identificati devono poter rimandare al trattamento.'
 
 $node = Get-Command node -ErrorAction SilentlyContinue
 if ($node) {
