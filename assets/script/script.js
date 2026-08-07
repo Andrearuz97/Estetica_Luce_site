@@ -67,20 +67,15 @@ const setupPageTransitions = () => {
 
     const jumpToTarget = (target, url) => {
         const headerOffset = document.querySelector(".main-header")?.offsetHeight || 0;
-        const contactContainer = target.matches?.(".contact-section")
-            ? target.querySelector(".contact-container")
-            : null;
         let targetTop = 0;
 
         if (target !== document.body && target.id !== "home") {
-            const visualTarget = contactContainer || target;
-            const visualRect = visualTarget.getBoundingClientRect();
-            const availableHeight = Math.max(0, window.innerHeight - headerOffset);
-            const centeredGap = contactContainer
-                ? Math.max(20, (availableHeight - Math.min(visualRect.height, availableHeight)) / 2)
-                : 8;
+            const targetRect = target.getBoundingClientRect();
+            const sectionStyle = target.matches?.("section[id]") ? window.getComputedStyle(target) : null;
+            const sectionPadding = sectionStyle ? Number(sectionStyle.paddingTop.replace("px", "")) || 0 : 0;
+            const paddingCorrection = Math.min(54, sectionPadding * 0.35);
 
-            targetTop = visualRect.top + window.scrollY - headerOffset - centeredGap;
+            targetTop = targetRect.top + window.scrollY - headerOffset - 8 + paddingCorrection;
         }
 
         window.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
@@ -102,9 +97,16 @@ const setupPageTransitions = () => {
         });
     };
 
+    const finishInitialHashAlignment = () => {
+        alignInitialHash();
+        window.setTimeout(alignInitialHash, 120);
+    };
+
     alignInitialHash();
     if (document.readyState !== "complete") {
-        window.addEventListener("load", alignInitialHash, { once: true });
+        window.addEventListener("load", finishInitialHashAlignment, { once: true });
+    } else {
+        finishInitialHashAlignment();
     }
 
     const revealCurrentPage = () => {
