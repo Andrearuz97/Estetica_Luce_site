@@ -70,30 +70,75 @@ body {
     color: var(--dark-text);
     line-height: 1.7;
     overflow-x: hidden;
-    opacity: 1;
-    transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-font-smoothing: antialiased;
 }
 
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+body::before {
+    inset: 0;
+    z-index: 9998;
+    background-color: var(--bg-cream);
+    transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 180ms;
+}
+
+body::after {
+    top: 50%;
+    left: 50%;
+    z-index: 9999;
+    width: clamp(96px, 11vw, 138px);
+    aspect-ratio: 1309 / 1201;
+    background: url('../img/logo-estetica-luce-transparent.png') center / contain no-repeat;
+    transform: translate(-50%, -50%) scale(0.97);
+    transition: opacity 140ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 180ms;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-    body {
-        animation: site-page-enter 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    body::before {
+        animation: site-transition-reveal 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    body.is-navigation-fading {
+    body::after {
+        animation: site-logo-reveal 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    body.is-navigation-fading::before,
+    body.is-navigation-fading::after {
         animation: none;
-        opacity: 0;
-        pointer-events: none;
+        opacity: 1;
+        visibility: visible;
+        transition-delay: 0s;
+    }
+
+    body.is-navigation-fading::before {
+        pointer-events: auto;
+    }
+
+    body.is-navigation-fading::after {
+        transform: translate(-50%, -50%) scale(1);
     }
 }
 
-@keyframes site-page-enter {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes site-transition-reveal {
+    from { opacity: 1; visibility: visible; }
+    to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes site-logo-reveal {
+    from { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+    to { opacity: 0; visibility: hidden; transform: translate(-50%, -50%) scale(0.97); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    body {
+    body::before,
+    body::after {
         animation: none;
         transition: none;
     }
