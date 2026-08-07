@@ -204,6 +204,8 @@ Assert-True ($script.Contains('navigator.share')) 'La selezione filtrata deve us
 Assert-True ($script.Contains('const setupPageTransitions')) 'Manca la transizione coerente tra pagine e sezioni interne.'
 Assert-True ($script.Contains('history.pushState(null, "", nextUrl)')) 'I salti interni devono aggiornare l URL senza mostrare lo scorrimento lungo.'
 Assert-True ($script.Contains('window.location.assign(url.href)')) 'I collegamenti interni tra pagine devono usare la stessa transizione.'
+Assert-True ($script.Contains('target.querySelector(".contact-container")')) 'I link ai contatti devono centrare il contenuto invece del padding esterno.'
+Assert-True ($script.Contains('const alignInitialHash')) 'I link con ancora provenienti da altre pagine devono essere riallineati al caricamento.'
 Assert-True ($style.Contains('body.is-navigation-fading')) 'Manca lo stato visivo della transizione di navigazione.'
 Assert-True ($style.Contains('@keyframes site-transition-reveal')) 'Manca la dissolvenza coerente in entrata.'
 Assert-True ($style.Contains("background: url('../img/logo-estetica-luce-transparent.png')")) 'La transizione deve mostrare il logo ufficiale sul fondo crema.'

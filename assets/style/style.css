@@ -93,7 +93,7 @@ body::after {
     top: 50%;
     left: 50%;
     z-index: 9999;
-    width: clamp(96px, 11vw, 138px);
+    width: clamp(136px, 16vw, 210px);
     aspect-ratio: 1309 / 1201;
     background: url('../img/logo-estetica-luce-transparent.png') center / contain no-repeat;
     transform: translate(-50%, -50%) scale(0.97);
